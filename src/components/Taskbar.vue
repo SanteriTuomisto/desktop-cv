@@ -1,6 +1,15 @@
 <template>
   <div id="taskbar">
-    taskbar
+    <div>
+      start
+    </div>
+    <div>
+      open apps
+    </div>
+    <div>
+      00:00
+      18.3.2021
+    </div>
   </div>
 </template>
 
@@ -12,7 +21,9 @@ export default {
 <style scoped>
   #taskbar {
     width: 100%;
-    background-color: black;
-    padding: 10px;
+    background-color: coral;
+    padding: 10px 0px;
+    display: flex;
+    justify-content: space-between;
   }
 </style>

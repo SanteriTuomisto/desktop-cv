@@ -1,5 +1,6 @@
 <template>
   <div id="desktop">
+    <Window />
     <div class="desktop-wrapper">
       <DesktopItem />
       <DesktopItem />
@@ -10,10 +11,12 @@
 
 <script>
 import DesktopItem from './DesktopItem.vue';
+import Window from './Window.vue';
 
 export default {
   components: {
     DesktopItem,
+    Window,
   },
 };
 </script>
