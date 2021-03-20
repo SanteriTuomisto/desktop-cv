@@ -1,21 +1,14 @@
 <template>
   <div id="desktop">
     <Window />
-    <div class="desktop-wrapper">
-      <DesktopItem />
-      <DesktopItem />
-      <DesktopItem />
-    </div>
   </div>
 </template>
 
 <script>
-import DesktopItem from './DesktopItem.vue';
 import Window from './Window.vue';
 
 export default {
   components: {
-    DesktopItem,
     Window,
   },
 };
