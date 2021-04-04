@@ -3,20 +3,23 @@
     <Window />
   </div>
   <div class="desktop-wrapper">
-    <DesktopItem/>
-    <DesktopItem/>
-    <DesktopItem/>
+    <DesktopItem />
+    <DesktopItem />
+    <DesktopItem />
   </div>
+  <StartMenu />
 </template>
 
 <script>
 import Window from './Window.vue';
 import DesktopItem from './DesktopItem.vue';
+import StartMenu from './StartMenu.vue';
 
 export default {
   components: {
     Window,
     DesktopItem,
+    StartMenu,
   },
 };
 </script>

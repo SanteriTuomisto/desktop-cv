@@ -117,6 +117,9 @@ export default {
     background: linear-gradient(63deg, rgba(142,10,119,1) 0%, rgba(51,35,158,1) 56%, rgba(255,0,128,1) 100%);
     color: white;
     text-align: center;
+  }
+
+  .drag-container-1 {
     cursor: pointer;
   }
 
@@ -128,5 +131,4 @@ export default {
     justify-content: center;
     align-items: center;
   }
-
 </style>
