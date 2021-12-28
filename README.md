@@ -1,5 +1,7 @@
 # my-os
 
+https://santerituomisto.github.io/
+
 ## Project setup
 ```
 npm install
