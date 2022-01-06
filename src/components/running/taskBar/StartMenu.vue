@@ -26,7 +26,6 @@ export default {
       const application = {
         name: 'File Explorer',
         type: 'fileExplorer',
-        position: 0,
       };
       this.$store.dispatch('openApplication', application);
     },

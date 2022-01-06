@@ -8,7 +8,7 @@
     <Window
       v-for="app, index in openApplications" :key="app.id"
       :id="app.id"
-      :header="app.name"
+      :app="app"
       :index="index"
     />
   </div>
@@ -39,7 +39,6 @@ export default {
       const application = {
         name: 'File Explorer',
         type: 'fileExplorer',
-        position: 0,
       };
       this.$store.dispatch('openApplication', application);
     },

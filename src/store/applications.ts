@@ -2,10 +2,23 @@ import { ActionContext } from 'vuex';
 
 type ApplicationType = 'fileExplorer' | 'browser';
 
+interface Position {
+  top: number;
+  left: number;
+}
+
+interface Size {
+  width: number;
+  height: number;
+}
+
 interface Application {
   id: number;
   type: ApplicationType;
-  position: any;
+  position: Position;
+  minimized: boolean;
+  maximized: boolean;
+  size: Size;
 }
 
 interface State {
@@ -27,6 +40,16 @@ const mutations = {
   openApplicationMutation(state: State, application: Application) {
     state.openApplications.push(application);
   },
+  updateApplicationMutation(state: State, application: Application) {
+    const index = state.openApplications.findIndex((app) => app.id === application.id);
+    if (index >= 0) {
+      const updatedApp = { 
+        ...state.openApplications[index],
+        ...application,
+      };
+      state.openApplications[index] = updatedApp;
+    }
+  },
   closeApplicationMutation(state: State, id: number) {
     state.openApplications = state.openApplications.filter(app => app.id !== id); 
   },
@@ -45,6 +68,9 @@ const actions = {
     context.commit('increaseIdMutation');
     context.commit('setActiveWindowIdMutation', nextId);
     context.commit('openApplicationMutation', app);
+  },
+  updateApplication(context: ActionContext<State, any>, application: Application) {
+    context.commit('updateApplicationMutation', application);
   },
   closeApplication(context: ActionContext<State, any>, id: number) {
     context.commit('closeApplicationMutation', id);

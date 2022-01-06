@@ -1,5 +1,6 @@
 <template>
   <vue-resizable
+    v-show="!minimized"
     @click="setActive"
     class="resizable"
     :class="active ? 'active' : 'inactive'"
@@ -7,6 +8,7 @@
     :dragSelector="dragSelector"
     :active="handlers"
     :fit-parent="fit"
+    :maximize="maximized"
     :min-width="minW || checkEmpty"
     :min-height="minH || checkEmpty"
     :width="width"
@@ -22,10 +24,14 @@
     @drag:end="eHandler"
   >
     <div class="block">
-      <div class="drag-container-1">
-        <div>{{ header }}</div>
-        <div>
-          <button @click.stop="closeWindow">x</button>
+      <div class="drag-container-1"
+        @dblclick="maximizeWindow"
+      >
+        <div>{{ app.name }}</div>
+        <div class="topbar-buttons">
+          <div @click.stop="minimizeWindow">_</div>
+          <div @click.stop="maximizeWindow">[ ]</div>
+          <div @click.stop="closeWindow">x</div>
         </div>
       </div>
       <div class="table-container">
@@ -42,6 +48,10 @@
           <tr>
             <td>l:{{ left }}</td>
             <td>t:{{ top }}</td>
+          </tr>
+          <tr>
+            <td>max:{{ maximized }}</td>
+            <td>min:{{ minimized }}</td>
           </tr>
         </table>
       </div>
@@ -61,27 +71,32 @@ export default {
   },
   props: {
     id: Number,
-    header: String,
+    app: Object,
     index: Number,
   },
   created() {
     const activeId = this.getActiveWindowId;
     this.active = activeId === this.id;
   },
+  mounted() {
+    this.updateWindowPositionAndSize();
+  },
   data() {
     const tW = 350;
     const tH = 250;
     const offset = this.index * 20;
     return {
+      minimized: false,
       active: false,
       handlers: ["r", "rb", "b", "lb", "l", "lt", "t", "rt"],
       left: `calc(50% - ${tW / 2 - offset}px)`,
       top: `calc(50% - ${tH / 2 - offset}px)`,
       height: tH,
       width: tW,
-      minW: 100,
-      minH: 100,
+      minW: 300,
+      minH: 150,
       fit: true,
+      maximized: false,
       event: "",
       dragSelector: ".drag-container-1",
     };
@@ -94,12 +109,53 @@ export default {
       this.left = data.left;
       this.top = data.top;
       this.event = data.eventName;
+      this.updateApplicationToStore();
+    },
+    minimizeWindow() {
+      this.minimized = true;
+      this.updateApplicationToStore();
+    },
+    maximizeWindow() {
+      this.maximized = !this.maximized;
+      this.updateApplicationToStore();
     },
     closeWindow() {
       this.$store.dispatch('closeApplication', this.id);
     },
     setActive() {
       this.$store.dispatch('setActiveWindowId', this.id);
+    },
+    updateWindowPositionAndSize() {
+      if (this.app.position?.top && this.app.position?.left) {
+        this.top = this.app.position.top;
+        this.left = this.app.position.left;
+      }
+      if (this.app.size?.width && this.app.size?.height) {
+        this.width = this.app.size.width;
+        this.height = this.app.size.height;
+      }
+      if (this.app.minimized) {
+        this.minimized = this.app.minimized;
+      }
+      if (this.app.maximized) {
+        this.maximized = this.app.maximized;
+      }
+      this.updateApplicationToStore();
+    },
+    updateApplicationToStore() {
+      this.$store.dispatch('updateApplication', {
+        id: this.id,
+        minimized: this.minimized,
+        maximized: this.maximized,
+        position: {
+          top: this.top,
+          left: this.left,
+        },
+        size: {
+          width: this.width,
+          height: this.height,
+        }
+      }); 
     },
   },
   computed: {
@@ -134,6 +190,17 @@ export default {
     border-right: 4px solid #393983;
     border-bottom: 4px solid #393983;
     z-index: 0;
+  }
+
+  .topbar-buttons {
+    display: flex;
+    width: 70px;
+    justify-content: space-between;
+  }
+
+  .topbar-buttons > div {
+    width: 20px;
+    text-align: center;
   }
 
   .block {
