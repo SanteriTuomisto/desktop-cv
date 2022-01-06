@@ -1,16 +1,43 @@
 <template>
   <div v-if="showStartMenu" id="menu">
-    <StartMenuItem :id="1" text="File Explorer" @click="fileExplorer" />
-    <StartMenuItem :id="2" text="Shut down" @click="powerOff" />
+    <StartMenuItem
+      text="Browser"
+      @click="openWindow('Browser', 'browser')"
+    >
+      <BrowserIcon class="icon" />
+    </StartMenuItem>
+    <StartMenuItem
+      text="Music Player"
+      @click="openWindow('Music Player', 'musicPlayer')"
+    >
+      <MusicIcon class="icon" />
+    </StartMenuItem>
+    <StartMenuItem
+      text="File Explorer"
+      @click="openWindow('File Explorer', 'fileExplorer')"
+    >
+      <FolderIcon class="icon"/>
+    </StartMenuItem>
+    <StartMenuItem :id="2" text="Shut down" @click="powerOff">
+      <PowerIcon class="icon" />
+    </StartMenuItem>
   </div>
 </template>
 
 <script>
+import FolderIcon from '@/assets/FolderIcon.vue';
+import PowerIcon from '@/assets/PowerIcon.vue';
+import MusicIcon from '@/assets/MusicIcon.vue';
+import BrowserIcon from '@/assets/BrowserIcon.vue';
 import StartMenuItem from './StartMenuItem.vue';
 
 export default {
   components: {
-    StartMenuItem, 
+    StartMenuItem,
+    FolderIcon,
+    PowerIcon,
+    MusicIcon,
+    BrowserIcon,
   },
   props: {
     showStartMenu: {
@@ -22,10 +49,10 @@ export default {
     powerOff() {
       this.$store.dispatch('togglePower');
     },
-    fileExplorer() {
+    openWindow(name, type) {
       const application = {
-        name: 'File Explorer',
-        type: 'fileExplorer',
+        name,
+        type,
       };
       this.$store.dispatch('openApplication', application);
     },
@@ -35,6 +62,7 @@ export default {
 
 <style scoped>
 #menu {
+  z-index: 3;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -47,5 +75,10 @@ export default {
   border-right: 4px solid #000080;
   border-bottom: 4px solid #000080;
   box-shadow: 4px 0px 0px 0px #000000;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
 }
 </style>

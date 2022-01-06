@@ -1,9 +1,9 @@
 <template>
   <div class="desktop-item"
-    @click="click"
+    @dblclick="doubleClick"
   >
-    <div style="height: 50px; width: 50px; background-color: gray;">
-      icon
+    <div class="icon">
+      <slot/>
     </div>
     <div class="item-name">
       {{ name }}
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+
 export default {
   emits: ['click'],
   props: {
@@ -25,7 +26,7 @@ export default {
     },
   },
   methods: {
-    click() {
+    doubleClick() {
       this.$emit('click');
     },
   },
@@ -34,7 +35,7 @@ export default {
 
 <style scoped>
   .desktop-item {
-    margin: 20px;
+    margin: 15px;
     display: flex;
     flex-direction: column;
     width: 100px;
@@ -42,8 +43,17 @@ export default {
     user-select: none;
     cursor: pointer;
   }
+  .icon {
+    height: 44px;
+    width: 44px;
+    color: #393983;
+  }
   .item-name {
     margin-top: 10px;
     font-weight: bold;
+  }
+  .desktop-item:active {
+    border: 1px solid coral;
+    box-sizing: border-box;
   }
 </style>

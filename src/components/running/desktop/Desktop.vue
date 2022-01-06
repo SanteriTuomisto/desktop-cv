@@ -1,12 +1,34 @@
 <template>
   <!-- render service -->
   <div id="desktop">
-    <DesktopItem
-      name="File Explorer"
-      @click="fileExplorer"   
-    />
+    <div class="desktop-item-wrapper">
+      <DesktopItem
+        name="Recycle Bin"
+        @click="openWindow('Recycle Bin', 'recycleBin')"
+      >
+        <TrashIcon />
+      </DesktopItem>
+      <DesktopItem
+        name="Browser"
+        @click="openWindow('Browser', 'browser')"
+      >
+        <BrowserIcon />
+      </DesktopItem>
+      <DesktopItem
+        name="Music Player"
+        @click="openWindow('Music Player', 'musicPlayer')"
+      >
+        <MusicIcon />
+      </DesktopItem>
+      <DesktopItem
+        name="File Explorer"
+        @click="openWindow('File Explorer', 'fileExplorer')"
+      >
+        <FolderIcon />
+      </DesktopItem>
+    </div>
     <Window
-      v-for="app, index in openApplications" :key="app.id"
+      v-for="app, index in applications" :key="app.id"
       :id="app.id"
       :app="app"
       :index="index"
@@ -18,6 +40,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import FolderIcon from '@/assets/FolderIcon.vue';
+import TrashIcon from '@/assets/TrashIcon.vue';
+import MusicIcon from '@/assets/MusicIcon.vue';
+import BrowserIcon from '@/assets/BrowserIcon.vue';
 import Window from './Window.vue';
 import DesktopItem from './DesktopItem.vue';
 
@@ -25,32 +51,36 @@ export default {
   components: {
     Window,
     DesktopItem,
+    FolderIcon,
+    BrowserIcon,
+    MusicIcon,
+    TrashIcon,
   },
   data() {
     return {
-      openApplications: [],
+      applications: [],
     };
   },
   mounted() {
-    this.openApplications = this.getOpenApplications;
+    this.applications = this.getApplications;
   },
   methods: {
-    fileExplorer() {
+    openWindow(name, type) {
       const application = {
-        name: 'File Explorer',
-        type: 'fileExplorer',
+        name,
+        type,
       };
       this.$store.dispatch('openApplication', application);
     },
   },
   computed: {
     ...mapGetters({  
-      getOpenApplications: 'getOpenApplications',
+      getApplications: 'getApplications',
     }),
   },
   watch: {
-    getOpenApplications(apps) {
-      this.openApplications = apps;
+    getApplications(apps) {
+      this.applications = apps;
     },
   },
 };
@@ -70,6 +100,11 @@ export default {
     width: 100%;
     background: rgb(0,124,128);
     background: linear-gradient(63deg, rgba(0,124,128,1) 0%, rgba(0,128,67,1) 100%);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .desktop-item-wrapper {
     display: flex;
     flex-direction: column;
   }

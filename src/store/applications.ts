@@ -1,6 +1,6 @@
 import { ActionContext } from 'vuex';
 
-type ApplicationType = 'fileExplorer' | 'browser';
+type ApplicationType = 'fileExplorer' | 'browser' | 'recycleBin' | 'musicPlayer';
 
 interface Position {
   top: number;
@@ -23,13 +23,13 @@ interface Application {
 
 interface State {
   id: number;
-  openApplications: Array<Application>;
+  applications: Array<Application>;
   activeWindowId: number | null;
 }
 
 const state: State = {
   id: 0,
-  openApplications: [],
+  applications: [],
   activeWindowId: null,
 };
 
@@ -38,20 +38,20 @@ const mutations = {
     state.id = state.id + 1;
   },
   openApplicationMutation(state: State, application: Application) {
-    state.openApplications.push(application);
+    state.applications.push(application);
   },
   updateApplicationMutation(state: State, application: Application) {
-    const index = state.openApplications.findIndex((app) => app.id === application.id);
+    const index = state.applications.findIndex((app) => app.id === application.id);
     if (index >= 0) {
       const updatedApp = { 
-        ...state.openApplications[index],
+        ...state.applications[index],
         ...application,
       };
-      state.openApplications[index] = updatedApp;
+      state.applications[index] = updatedApp;
     }
   },
   closeApplicationMutation(state: State, id: number) {
-    state.openApplications = state.openApplications.filter(app => app.id !== id); 
+    state.applications = state.applications.filter(app => app.id !== id); 
   },
   setActiveWindowIdMutation(state: State, id: number) {
     state.activeWindowId = id;
@@ -84,10 +84,15 @@ const actions = {
     });
   },
   selectOtherActiveWindow(context: ActionContext<State, any>) {
-    const openApplications = context.state.openApplications;
-    if (openApplications.length > 0) {
-      const lastId = openApplications[openApplications.length - 1].id;
-      context.commit('setActiveWindowIdMutation', lastId);
+    const applications = context.state.applications;
+    if (applications.length > 0) {
+      for (let i = applications.length; i >= 0; i -= 1) {
+        const app = applications[i];
+        if (app && app.minimized != null && app.minimized === false) {
+          context.commit('setActiveWindowIdMutation', app.id);
+          i = -1;
+        }
+      }
     } else {
       context.commit('setActiveWindowIdMutation', null);
     }
@@ -95,14 +100,14 @@ const actions = {
 };
 
 const getters = {
-  getOpenApplications(state: State) {
-    return state.openApplications;
+  getApplications(state: State) {
+    return state.applications;
   },
   getActiveWindowId(state: State) {
     return state.activeWindowId;
   },
   getApplicationById: (state: State) => (id: number) => {
-    return state.openApplications.find(app => app.id === id);
+    return state.applications.find(app => app.id === id);
   }
 };
 

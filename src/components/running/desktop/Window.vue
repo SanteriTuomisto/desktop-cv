@@ -29,9 +29,15 @@
       >
         <div>{{ app.name }}</div>
         <div class="topbar-buttons">
-          <div @click.stop="minimizeWindow">_</div>
-          <div @click.stop="maximizeWindow">[ ]</div>
-          <div @click.stop="closeWindow">x</div>
+          <div @click.stop="minimizeWindow">
+            <MinimizeIcon class="icon" />
+          </div>
+          <div @click.stop="maximizeWindow">
+            <ExpandIcon class="icon" />
+          </div>
+          <div @click.stop="closeWindow">
+            <XIcon class="icon" />
+          </div>
         </div>
       </div>
       <div class="table-container">
@@ -63,11 +69,17 @@
 <script>
 import VueResizable from 'vue-resizable';
 import { mapGetters } from 'vuex';
+import XIcon from '@/assets/XIcon.vue';
+import ExpandIcon from '@/assets/ExpandIcon.vue';
+import MinimizeIcon from '@/assets/MinimizeIcon.vue';
 
 export default {
   emits: ['click'],
   components: {
-    VueResizable
+    VueResizable,
+    XIcon,
+    ExpandIcon,
+    MinimizeIcon,
   },
   props: {
     id: Number,
@@ -211,6 +223,10 @@ export default {
   .topbar-buttons > div {
     width: 20px;
     text-align: center;
+  }
+
+  .icon {
+    height: 16px;
   }
 
   .block {

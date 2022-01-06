@@ -2,7 +2,12 @@
   <div class="menu-item"
     @click="menuItemClicked"
   >
-    {{ text }}
+    <div style="margin-right: 12px;">
+      <slot/>
+    </div>
+    <div>
+      {{ text }}
+    </div>
   </div>
 </template>
 
@@ -10,10 +15,6 @@
 export default {
   emits: ['menuItemClicked'],
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
     text: {
       type: String,
       default: '',
@@ -30,6 +31,7 @@ export default {
 
 <style scoped>
   .menu-item {
+    display: flex;
     background-color: #8080ff;
     padding: 10px;
     border-top: 4px solid #b9b9ff;

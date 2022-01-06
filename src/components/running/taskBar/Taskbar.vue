@@ -1,5 +1,10 @@
 <template>
   <StartMenu :showStartMenu="getShowStartMenu" />
+  <div class="start-menu-backdrop"
+    v-if="getShowStartMenu"
+    @click="hideStartMenu"  
+  >
+  </div>
   <div id="taskbar">
     <div class="start-menu-btn"
       @click="startButtonClick" 
@@ -9,12 +14,15 @@
     <div class="taskbarItems"
     >
       <TaskbarItem
-        v-for="app in openApplications" :key="app.id"
+        v-for="app in applications" :key="app.id"
         :id="app.id"
         :app="app"
       />
     </div>
     <div id="datetime">
+      <div>
+        <WifiIcon style="width: 20px; margin: 8px;" />
+      </div>
       <div class="time">{{ time }}</div>
     </div>
   </div>
@@ -23,6 +31,7 @@
 <script>
 import moment from 'moment';
 import { mapGetters } from 'vuex';
+import WifiIcon from '@/assets/WifiIcon.vue';
 import StartMenu from './StartMenu.vue';
 import TaskbarItem from './TaskbarItem.vue';
 
@@ -30,17 +39,18 @@ export default {
   components: {
     StartMenu,
     TaskbarItem,
+    WifiIcon,
   },
   data() {
     return {
       date: null,
       time: null,
       getDateInterval: null,
-      openApplications: [],
+      applications: [],
     };
   },
   mounted() {
-    this.openApplications = this.getOpenApplications;
+    this.applications = this.getApplications;
     this.getDate();
     this.getDateInterval = setInterval(() => {
       this.getDate();
@@ -57,18 +67,21 @@ export default {
     startButtonClick() {
       this.$store.dispatch('toggleStartMenu');
     },
+    hideStartMenu() {
+      this.$store.dispatch('toggleStartMenu');
+    },
   },
   computed: {
     ...mapGetters({  
-      getOpenApplications: 'getOpenApplications',
+      getApplications: 'getApplications',
     }),
     getShowStartMenu() {
       return this.$store.state.showStartMenu;
     },
   },
   watch: {
-    getOpenApplications(apps) {
-      this.openApplications = apps;
+    getApplications(apps) {
+      this.applications = apps;
     },
   },
 };
@@ -87,6 +100,7 @@ export default {
   }
   
   .start-menu-btn {
+    z-index: 2;
     width: 128px;
     background-color: #b9b9ff;
     border-left: 4px solid #b9b9ff;
@@ -105,6 +119,12 @@ export default {
     box-shadow: inset 1px 1px 0px 1px #000000;
   }
 
+  .start-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
   .taskbarItems {
     display: flex;
     width: 100%;
@@ -112,17 +132,20 @@ export default {
   }
 
   #datetime {
+    box-shadow: inset 1px 1px 0px 1px #000000;
     text-align: center;
+    display: flex;
+    background-color: #5c5cd5;
+    margin: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .time {
-    width: 80px;
-    background-color: #5c5cd5;
+    width: 60px;
     height: 34px;
-    margin: 4px;
     vertical-align: baseline;
     line-height: 34px;
     user-select: none;
-    box-shadow: inset 1px 1px 0px 1px #000000;
   }
 </style>
