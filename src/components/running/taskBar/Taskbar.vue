@@ -11,7 +11,7 @@
       <TaskbarItem
         v-for="app in openApplications" :key="app.id"
         :id="app.id"
-        :name="app.name"
+        :app="app"
       />
     </div>
     <div id="datetime">

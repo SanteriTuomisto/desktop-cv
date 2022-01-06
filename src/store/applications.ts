@@ -78,6 +78,10 @@ const actions = {
   },
   setActiveWindowId(context: ActionContext<State, any>, id: number) {
     context.commit('setActiveWindowIdMutation', id);
+    context.commit('updateApplicationMutation', {
+      id: id,
+      minimized: false,
+    });
   },
   selectOtherActiveWindow(context: ActionContext<State, any>) {
     const openApplications = context.state.openApplications;
@@ -97,6 +101,9 @@ const getters = {
   getActiveWindowId(state: State) {
     return state.activeWindowId;
   },
+  getApplicationById: (state: State) => (id: number) => {
+    return state.openApplications.find(app => app.id === id);
+  }
 };
 
 export default {

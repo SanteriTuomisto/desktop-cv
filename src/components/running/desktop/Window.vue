@@ -77,9 +77,10 @@ export default {
   created() {
     const activeId = this.getActiveWindowId;
     this.active = activeId === this.id;
+    this.updateAppFromStore(this.app);
   },
   mounted() {
-    this.updateWindowPositionAndSize();
+    this.updateApplicationToStore();
   },
   data() {
     const tW = 350;
@@ -114,6 +115,7 @@ export default {
     minimizeWindow() {
       this.minimized = true;
       this.updateApplicationToStore();
+      this.$store.dispatch('setActiveWindowId', null);
     },
     maximizeWindow() {
       this.maximized = !this.maximized;
@@ -125,22 +127,21 @@ export default {
     setActive() {
       this.$store.dispatch('setActiveWindowId', this.id);
     },
-    updateWindowPositionAndSize() {
-      if (this.app.position?.top && this.app.position?.left) {
-        this.top = this.app.position.top;
-        this.left = this.app.position.left;
+    updateAppFromStore(app) {
+      if (app.position?.top != null && app.position?.left != null) {
+        this.top = app.position.top;
+        this.left = app.position.left;
       }
-      if (this.app.size?.width && this.app.size?.height) {
-        this.width = this.app.size.width;
-        this.height = this.app.size.height;
+      if (app.size?.width != null && app.size?.height != null) {
+        this.width = app.size.width;
+        this.height = app.size.height;
       }
-      if (this.app.minimized) {
-        this.minimized = this.app.minimized;
+      if (app.minimized != null) {
+        this.minimized = app.minimized;
       }
-      if (this.app.maximized) {
-        this.maximized = this.app.maximized;
+      if (app.maximized != null) {
+        this.maximized = app.maximized;
       }
-      this.updateApplicationToStore();
     },
     updateApplicationToStore() {
       this.$store.dispatch('updateApplication', {
@@ -161,7 +162,11 @@ export default {
   computed: {
     ...mapGetters({  
       getActiveWindowId: 'getActiveWindowId',
+      getApplicationById: 'getApplicationById',
     }),
+    getApp() {
+      return this.getApplicationById(this.id);
+    },
     checkEmpty(value) {
       return typeof value !== "number" ? 0 : value;
     },
@@ -169,6 +174,11 @@ export default {
   watch: {
     getActiveWindowId(activeId) {
       this.active = activeId === this.id;
+    },
+    getApp(app) {
+      if (app) {
+        this.updateAppFromStore(app);
+      }
     },
   },
 };

@@ -3,7 +3,7 @@
     @click="setActive"
     :class="active ? 'active' : 'inactive'"
   >
-    {{ name }}
+    {{ app.name }}
   </div>
 </template>
 
@@ -16,9 +16,8 @@ export default {
       type: Number,
       required: true,
     },
-    name: {
-      type: String,
-      default: '',
+    app: {
+      type: Object,
     },
   },
   created() {
