@@ -49,5 +49,5 @@ export const store = createStore({
     applications,
     fileSystem,
   },
-  // plugins: [new VuexPersistence().plugin],
+  plugins: [new VuexPersistence().plugin],
 });
