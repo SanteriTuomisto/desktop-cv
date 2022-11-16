@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 import applications from './applications';
+import fileSystem from './fileSystem';
 
 interface State {
   powerOn: boolean;
@@ -46,6 +47,7 @@ export const store = createStore({
   },
   modules: {
     applications,
+    fileSystem,
   },
-  plugins: [new VuexPersistence().plugin],
+  // plugins: [new VuexPersistence().plugin],
 });

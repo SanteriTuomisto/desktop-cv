@@ -42,6 +42,8 @@ export default {
     align-items: center;
     user-select: none;
     cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid transparent;
   }
   .icon {
     height: 44px;
@@ -54,6 +56,5 @@ export default {
   }
   .desktop-item:active {
     border: 1px solid coral;
-    box-sizing: border-box;
   }
 </style>

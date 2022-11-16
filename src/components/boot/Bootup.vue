@@ -38,5 +38,6 @@ export default {
   left: 0px;
   right: 0px;
   bottom: 0px;
+  user-select: none;
 }
 </style>

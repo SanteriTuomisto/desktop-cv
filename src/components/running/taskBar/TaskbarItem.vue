@@ -31,7 +31,11 @@ export default {
   },
   methods: {
     setActive() {
-      this.$store.dispatch('setActiveWindowId', this.id);
+      if (this.active) {
+        this.$store.dispatch('setActiveWindowId', null);
+      } else {
+        this.$store.dispatch('setActiveWindowId', this.id);
+      }
     },
   },
   computed: {

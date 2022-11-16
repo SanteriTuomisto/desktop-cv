@@ -25,6 +25,9 @@
   >
     <div class="block">
       <div class="drag-container-1"
+        :class="{
+          'bottom-border': !hideBottomBorder,
+        }"
         @dblclick="maximizeWindow"
       >
         <div>{{ app.name }}</div>
@@ -41,25 +44,7 @@
         </div>
       </div>
       <div class="table-container">
-        <table>
-          <tr>
-            <td>id:{{ id }}</td>
-            <td>index:{{ index }}</td>
-            <td>activeId:{{ $store.getters.getActiveWindowId }}</td>
-          </tr>
-          <tr>
-            <td>w:{{ width }}</td>
-            <td>h:{{ height }}</td>
-          </tr>
-          <tr>
-            <td>l:{{ left }}</td>
-            <td>t:{{ top }}</td>
-          </tr>
-          <tr>
-            <td>max:{{ maximized }}</td>
-            <td>min:{{ minimized }}</td>
-          </tr>
-        </table>
+        <slot />
       </div>
       <!-- <div class="drag-container-2">footer</div> -->
     </div>
@@ -85,6 +70,10 @@ export default {
     id: Number,
     app: Object,
     index: Number,
+    hideBottomBorder: {
+      type: Boolean,
+      default: false,
+    },
   },
   created() {
     const activeId = this.getActiveWindowId;
@@ -260,9 +249,8 @@ export default {
   .drag-container-2 {
     padding: 7px 7px;
     background: #8080ff;
-    border-top: 4px solid #b9b9ff;
+    border-top: 4px solid hsl(240, 100%, 86%);
     border-left: 4px solid #b9b9ff;
-    border-bottom: 4px solid #5c5cd5;
     border-right: 4px solid #5c5cd5;
     color: #ffff00;
     font-weight: bold;
@@ -270,6 +258,10 @@ export default {
     display: flex;
     user-select: none;
     justify-content: space-between;
+  }
+
+  .bottom-border {
+    border-bottom: 4px solid #5c5cd5;
   }
 
   .drag-container-1 {

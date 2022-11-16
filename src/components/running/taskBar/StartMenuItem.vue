@@ -41,6 +41,7 @@ export default {
     color: #ffff00;
     font-weight: bold;
     user-select: none;
+    cursor: pointer;
   }
 
   .menu-item:active {

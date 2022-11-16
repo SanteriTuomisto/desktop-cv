@@ -15,8 +15,8 @@
         <BrowserIcon />
       </DesktopItem>
       <DesktopItem
-        name="Music Player"
-        @click="openWindow('Music Player', 'musicPlayer')"
+        name="Music"
+        @click="openWindow('Music', 'musicPlayer')"
       >
         <MusicIcon />
       </DesktopItem>
@@ -32,7 +32,13 @@
       :id="app.id"
       :app="app"
       :index="index"
-    />
+      :hideBottomBorder="app.type === 'fileExplorer'"
+    >
+      <FileExplorer v-if="app.type === 'fileExplorer'" />
+      <MusicPlayer v-if="app.type === 'musicPlayer'" />
+      <Browser v-if="app.type === 'browser'" />
+      <TextEditor v-if="app.type === 'file'" :id="app.id" />
+    </Window>
   </div>
   <div class="desktop-background">
   </div>
@@ -46,6 +52,10 @@ import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
 import Window from './Window.vue';
 import DesktopItem from './DesktopItem.vue';
+import FileExplorer from '../fileExplorer/FileExplorer.vue';
+import Browser from '../browser/Browser.vue';
+import MusicPlayer from '../musicPlayer/MusicPlayer.vue';
+import TextEditor from '../editor/TextEditor.vue';
 
 export default {
   components: {
@@ -55,6 +65,10 @@ export default {
     BrowserIcon,
     MusicIcon,
     TrashIcon,
+    FileExplorer,
+    Browser,
+    MusicPlayer,
+    TextEditor,
   },
   data() {
     return {
@@ -93,6 +107,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 46px;
+    overflow: hidden;
   }
 
   .desktop-background {
@@ -107,5 +122,9 @@ export default {
   .desktop-item-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-content: flex-start;
+    flex-wrap: wrap;
   }
 </style>
