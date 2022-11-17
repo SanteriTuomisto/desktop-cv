@@ -1,32 +1,57 @@
 <template>
   <div class="file-explorer">
     <div class="buttons">
-      <div style="display: flex; align-items: center;">
-        <HomeIcon class="icon" @click="goHome" />
-        <ArrowLeft class="icon" @click="back" v-if="!isHome" />
+      <div style="display: flex; align-items: center; height: 30px;">
+        <div title="Home" style="height: 30px;">
+          <HomeIcon class="icon" @click="goHome" />
+        </div>
+        <div title="Back" style="height: 30px;">
+          <ArrowLeft class="icon" @click="back" v-if="!isHome" />
+        </div>
       </div>
       <div style="display: flex; align-items: center;">
-        <button>new</button>
-        <button :disabled="selectedItems.length !== 1">rename</button>
-        <button :disabled="selectedItems.length === 0">delete</button>
+        <div class="line">
+        </div>
+        <div title="New folder" style="height: 30px;">
+          <FolderIcon class="icon" @click="addNewFolder" />
+        </div>
+        <div title="New text file" style="height: 30px;">
+          <FileIcon class="icon" @click="addNewTextFile" />
+        </div>
+        <div class="line">
+        </div>
+        <div title="Rename" style="height: 30px;">
+          <EditIcon class="icon" :class="{
+            'disabled': selectedItems.length !== 1,
+          }" />
+        </div>
+        <div title="Delete" style="height: 30px;">
+          <TrashIcon class="icon" :class="{
+            'disabled': selectedItems.length === 0,
+          }" />
+        </div>
       </div>
     </div>
     <div class="path">
       <span v-for="(p, index) in paths" :key="`path-item-${index}`">{{ p.name }}/</span>
     </div>
-    <div class="items">
-      <FileSystemItem
-        v-for="(item, index) in getCurrentFolder"
-        :key="`file-explorer-${index}`"
-        :id="item.id"
-        :type="item.type"
-        :name="item.name"
-        :content="item.content"
-        :selected="itemSelected(item.id)"
-        @selected="selected"
-        @deselected="deselected"
-        @folderClick="folderClick"
-      />
+    <div style="height: calc(100% - 60px);">
+      <Scroller>
+        <div class="items">
+          <FileSystemItem
+            v-for="(item, index) in getCurrentFolder"
+            :key="`file-explorer-${index}`"
+            :id="item.id"
+            :type="item.type"
+            :name="item.name"
+            :content="item.content"
+            :selected="itemSelected(item.id)"
+            @selected="selected"
+            @deselected="deselected"
+            @folderClick="folderClick"
+          />
+        </div>
+      </Scroller>
     </div>
   </div>
 </template>
@@ -36,12 +61,22 @@ import { mapGetters } from 'vuex';
 import FileSystemItem from './FileSystemItem.vue';
 import HomeIcon from '@/assets/HomeIcon.vue';
 import ArrowLeft from '@/assets/ArrowLeft.vue';
+import FileIcon from '@/assets/FileIcon.vue';
+import FolderIcon from '@/assets/FolderIcon.vue';
+import TrashIcon from '@/assets/TrashIcon.vue';
+import EditIcon from '@/assets/EditIcon.vue';
+import Scroller from '@/components/_shared/Scroller.vue';
 
 export default {
   components: {
     FileSystemItem,
     HomeIcon,
     ArrowLeft,
+    FileIcon,
+    FolderIcon,
+    TrashIcon,
+    EditIcon,
+    Scroller,
   },
   data() {
     return {
@@ -75,6 +110,24 @@ export default {
     },
     back() {
       this.paths.pop();
+    },
+    addNewFolder() {
+      this.$store.dispatch('addNewFile', {
+        currentPath: this.paths,
+        item: {
+          name: 'Folder',
+          type: 'folder',
+        },
+      });
+    },
+    addNewTextFile() {
+      this.$store.dispatch('addNewFile', {
+        currentPath: this.paths,
+        item: {
+          name: 'Text',
+          type: 'file',
+        },
+      });
     },
   },
   computed: {
@@ -122,6 +175,10 @@ export default {
   cursor: pointer;
   padding: 5px 10px;
 }
+.disabled {
+  color: #9090e6;
+  cursor: default;
+}
 
 .path {
   background-color: #7575e8;
@@ -132,5 +189,11 @@ export default {
   overflow: hidden;
   border-bottom: 4px solid #5c5cd5;
   user-select: none;
+}
+
+.line {
+  width: 3px;
+  height: 30px;
+  background-color: #8080ff;
 }
 </style>

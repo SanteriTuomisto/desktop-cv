@@ -4,14 +4,16 @@ interface Item {
   id: number;
   type: 'file' | 'folder' | 'browser' | 'musicPlayer';
   name: string;
-  content?: Array<Item | 'string'>;
+  content?: Array<Item>;
 }
 
 interface State {
+  nextFileId: number;
   fileSystemItems: Array<Item>;
 }
 
 const state: State = {
+  nextFileId: 6,
   fileSystemItems: [
     {
       id: 0,
@@ -50,8 +52,45 @@ const state: State = {
   ],
 };
 
-const mutations = {};
-const actions = {};
+const mutations = {
+  increaseNextFileIdMut(state: State) {
+    state.nextFileId = state.nextFileId + 1;
+  },
+  addNewFileMut(state: State, data: { newItem: Item, currentPath: Item[] }) {
+    const currentPath = data.currentPath;
+    const items = state.fileSystemItems;
+    // Add to root
+    if (currentPath.length === 1 && currentPath[0].id === -1) {
+      items.push(data.newItem);
+      return;
+    }
+    // Find correct node
+    let loopItem = null;
+    for (let i = 0; i < currentPath.length; i += 1) {
+      const cp = currentPath[i];
+      if (loopItem?.content != null) {
+        loopItem = loopItem.content.find((i: Item) => i.id === cp.id);        
+      } else {
+        loopItem = items.find((i) => i.id === cp.id);        
+      }
+    }
+    if (loopItem?.content == null) {
+      return;
+    }
+    loopItem.content.push(data.newItem);
+  },
+};
+const actions = {
+  addNewFile(context: ActionContext<State, any>, data: { item: Item, currentPath: Item[] }) {
+    const newItem = data.item;
+    newItem.id = context.state.nextFileId;
+    if (newItem.type === 'folder') {
+      newItem.content = [];
+    }
+    context.commit('increaseNextFileIdMut');
+    context.commit('addNewFileMut', { currentPath: data.currentPath, newItem });
+  },
+};
 const getters = {
   getFileSystemItems(state: State) {
     return state.fileSystemItems;

@@ -33,6 +33,8 @@
       :app="app"
       :index="index"
       :hideBottomBorder="app.type === 'fileExplorer'"
+      :minW="app.type === 'fileExplorer' ? 450 : 400"
+      :minH="app.type === 'fileExplorer' ? 350 : 250"
     >
       <FileExplorer v-if="app.type === 'fileExplorer'" />
       <MusicPlayer v-if="app.type === 'musicPlayer'" />

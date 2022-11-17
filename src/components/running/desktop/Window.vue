@@ -9,8 +9,8 @@
     :active="handlers"
     :fit-parent="fit"
     :maximize="maximized"
-    :min-width="minW || checkEmpty"
-    :min-height="minH || checkEmpty"
+    :min-width="minW"
+    :min-height="minH"
     :width="width"
     :height="height"
     :left="left"
@@ -74,6 +74,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    minW: {
+      type: Number,
+      default: 400,
+    },
+    minH: {
+      type: Number,
+      default: 250,
+    },
   },
   created() {
     const activeId = this.getActiveWindowId;
@@ -84,8 +92,8 @@ export default {
     this.updateApplicationToStore();
   },
   data() {
-    const tW = 350;
-    const tH = 250;
+    const tW = 500;
+    const tH = 350;
     const offset = this.index * 20;
     return {
       minimized: false,
@@ -95,8 +103,6 @@ export default {
       top: `calc(50% - ${tH / 2 - offset}px)`,
       height: tH,
       width: tW,
-      minW: 300,
-      minH: 150,
       fit: true,
       maximized: false,
       event: "",
@@ -167,9 +173,6 @@ export default {
     }),
     getApp() {
       return this.getApplicationById(this.id);
-    },
-    checkEmpty(value) {
-      return typeof value !== "number" ? 0 : value;
     },
   },
   watch: {
@@ -275,5 +278,6 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: calc(100% - 40px);
   }
 </style>
