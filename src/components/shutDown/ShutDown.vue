@@ -12,7 +12,6 @@
 export default {
   methods: {
     start() {
-      this.$emit('start');
       this.$store.dispatch('togglePower');
     },
   },

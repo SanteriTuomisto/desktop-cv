@@ -5,6 +5,9 @@
   <div v-else-if="bootupState">
     <Bootup />
   </div>
+  <div v-else-if="startupState">
+    <Startup />
+  </div>
   <div v-else>
     <Desktop />
     <Taskbar />
@@ -14,6 +17,7 @@
 <script>
 import Desktop from './components/running/desktop/Desktop.vue';
 import Bootup from './components/boot/Bootup.vue';
+import Startup from './components/boot/Startup.vue';
 import ShutDown from './components/shutDown/ShutDown.vue';
 import Taskbar from './components/running/taskBar/Taskbar.vue';
 
@@ -24,6 +28,7 @@ export default {
     Desktop,
     Taskbar,
     ShutDown,
+    Startup,
   },
   computed: {
     shutDownState() {
@@ -31,6 +36,9 @@ export default {
     },
     bootupState() {
       return this.$store.state.bootup;
+    },
+    startupState() {
+      return this.$store.state.startup;
     },
   },
 }

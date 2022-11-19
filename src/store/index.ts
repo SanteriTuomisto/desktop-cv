@@ -6,12 +6,14 @@ import fileSystem from './fileSystem';
 interface State {
   powerOn: boolean;
   bootup: boolean;
+  startup: boolean;
   showStartMenu: boolean;
 }
 
 const state: State = {
   powerOn: false,
   bootup: false,
+  startup: false,
   showStartMenu: false,
 };
 
@@ -23,6 +25,9 @@ export const store = createStore({
     },
     setBootupMutation(state: State) {
       state.bootup = !state.bootup;
+    },
+    setStartupMutation(state: State) {
+      state.startup = !state.startup;
     },
     setStartMenuMutation(state: State) {
       state.showStartMenu = !state.showStartMenu;
@@ -41,13 +46,19 @@ export const store = createStore({
         dispatch('toggleBootup');
       }
     },
-    toggleBootup({ commit }) {
+    toggleBootup({ commit, dispatch, state }) {
       commit('setBootupMutation');
+      if (state.bootup) {
+        dispatch('toggleStartup');
+      }
+    },
+    toggleStartup({ commit }) {
+      commit('setStartupMutation');
     },
   },
   modules: {
     applications,
     fileSystem,
   },
-  plugins: [new VuexPersistence().plugin],
+  // plugins: [new VuexPersistence().plugin],
 });
