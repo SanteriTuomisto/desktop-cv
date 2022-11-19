@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .view {
   background: linear-gradient(342deg, rgba(52,148,230,1) 0%, rgba(236,110,173,1) 100%);
   position: absolute;

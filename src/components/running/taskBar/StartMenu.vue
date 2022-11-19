@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #menu {
   z-index: 3;
   display: flex;

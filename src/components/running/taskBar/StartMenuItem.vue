@@ -29,7 +29,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .menu-item {
     display: flex;
     background-color: #8080ff;

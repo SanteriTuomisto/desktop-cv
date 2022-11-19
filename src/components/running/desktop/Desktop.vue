@@ -102,7 +102,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   #desktop {
     position: absolute;
     top: 0;

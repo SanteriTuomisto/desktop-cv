@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .menu-item {
     padding: 10px;
     color: #ffff00;

@@ -2,9 +2,6 @@
   <div v-if="!shutDownState">
     <ShutDown />
   </div>
-  <div v-else-if="bootupState">
-    <Bootup />
-  </div>
   <div v-else-if="startupState">
     <Startup />
   </div>
@@ -24,7 +21,6 @@ import Taskbar from './components/running/taskBar/Taskbar.vue';
 export default {
   name: 'App',
   components: {
-    Bootup,
     Desktop,
     Taskbar,
     ShutDown,
@@ -33,9 +29,6 @@ export default {
   computed: {
     shutDownState() {
       return this.$store.state.powerOn;
-    },
-    bootupState() {
-      return this.$store.state.bootup;
     },
     startupState() {
       return this.$store.state.startup;

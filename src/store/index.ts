@@ -5,14 +5,12 @@ import fileSystem from './fileSystem';
 
 interface State {
   powerOn: boolean;
-  bootup: boolean;
   startup: boolean;
   showStartMenu: boolean;
 }
 
 const state: State = {
   powerOn: false,
-  bootup: false,
   startup: false,
   showStartMenu: false,
 };
@@ -22,9 +20,6 @@ export const store = createStore({
   mutations: {
     setPowerMutation(state: State, powerStatus: boolean) {
       state.powerOn = powerStatus;
-    },
-    setBootupMutation(state: State) {
-      state.bootup = !state.bootup;
     },
     setStartupMutation(state: State) {
       state.startup = !state.startup;
@@ -43,12 +38,6 @@ export const store = createStore({
         commit('setPowerMutation', false);
       } else {
         commit('setPowerMutation', true);
-        dispatch('toggleBootup');
-      }
-    },
-    toggleBootup({ commit, dispatch, state }) {
-      commit('setBootupMutation');
-      if (state.bootup) {
         dispatch('toggleStartup');
       }
     },

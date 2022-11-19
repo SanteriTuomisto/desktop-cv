@@ -33,7 +33,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .desktop-item {
     margin: 15px;
     display: flex;

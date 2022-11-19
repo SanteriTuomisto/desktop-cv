@@ -188,7 +188,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .active {
     z-index: 1;
     border-top: 4px solid #004080;

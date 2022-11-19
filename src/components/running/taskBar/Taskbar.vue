@@ -87,7 +87,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   #taskbar {
     height: 42px;
     width: 100%;
