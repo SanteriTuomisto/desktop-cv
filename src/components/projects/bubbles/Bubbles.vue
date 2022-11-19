@@ -82,8 +82,8 @@ export default {};
     }
 
 .stage {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   display: inline-block;
   margin: 20px;
   -webkit-perspective: 1200px;
