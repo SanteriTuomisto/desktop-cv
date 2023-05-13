@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
+import browser from './browser';
 import applications from './applications';
 import fileSystem from './fileSystem';
 
@@ -48,6 +49,7 @@ export const store = createStore({
   modules: {
     applications,
     fileSystem,
+    browser,
   },
-  // plugins: [new VuexPersistence().plugin],
+  plugins: [new VuexPersistence().plugin],
 });

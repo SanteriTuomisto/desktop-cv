@@ -28,9 +28,15 @@ export default {
   },
   computed: {
     shutDownState() {
+      if (process.env.NODE_ENV === 'development') {
+        return true;
+      }
       return this.$store.state.powerOn;
     },
     startupState() {
+      if (process.env.NODE_ENV === 'development') {
+        return false;
+      }
       return this.$store.state.startup;
     },
   },
