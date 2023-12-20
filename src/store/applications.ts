@@ -1,6 +1,6 @@
 import { ActionContext } from 'vuex';
 
-type ApplicationType = 'fileExplorer' | 'browser' | 'recycleBin' | 'musicPlayer';
+type ApplicationType = 'fileExplorer' | 'browser' | 'recycleBin' | 'musicPlayer' | 'terminal';
 
 interface Position {
   top: number;

@@ -26,6 +26,12 @@
       >
         <FolderIcon />
       </DesktopItem>
+      <DesktopItem
+        name="Terminal"
+        @click="openWindow('Terminal', 'terminal')"
+      >
+        <FolderIcon />
+      </DesktopItem>
     </div>
     <Window
       v-for="app, index in applications" :key="app.id"
@@ -40,6 +46,7 @@
       <MusicPlayer v-if="app.type === 'musicPlayer'" />
       <Browser v-if="app.type === 'browser'" />
       <TextEditor v-if="app.type === 'file'" :id="app.id" />
+      <TerminalWindow v-if="app.type === 'terminal'" />
     </Window>
   </div>
   <div class="desktop-background">
@@ -58,6 +65,7 @@ import FileExplorer from '../fileExplorer/FileExplorer.vue';
 import Browser from '../browser/Browser.vue';
 import MusicPlayer from '../musicPlayer/MusicPlayer.vue';
 import TextEditor from '../editor/TextEditor.vue';
+import TerminalWindow from '../terminal/TerminalWindow.vue';
 
 export default {
   components: {
@@ -71,6 +79,7 @@ export default {
     Browser,
     MusicPlayer,
     TextEditor,
+    TerminalWindow,
   },
   data() {
     return {

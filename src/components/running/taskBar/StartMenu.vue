@@ -18,6 +18,12 @@
     >
       <FolderIcon class="icon"/>
     </StartMenuItem>
+    <StartMenuItem
+      text="Terminal"
+      @click="openWindow('Terminal', 'terminal')"
+    >
+      <FolderIcon class="icon"/>
+    </StartMenuItem>
     <StartMenuItem :id="2" text="Shut down" @click="powerOff">
       <PowerIcon class="icon" />
     </StartMenuItem>

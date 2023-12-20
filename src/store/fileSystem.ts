@@ -2,7 +2,7 @@ import { ActionContext } from 'vuex';
 
 interface Item {
   id: number;
-  type: 'file' | 'folder' | 'browser' | 'musicPlayer';
+  type: 'file' | 'folder' | 'browser' | 'musicPlayer' | 'terminal';
   name: string;
   content?: Array<Item>;
 }
@@ -48,6 +48,11 @@ const state: State = {
       id: 2,
       type: 'musicPlayer',
       name: 'Music',
+    },
+    {
+      id: 3,
+      type: 'terminal',
+      name: 'Terminal',
     },
   ],
 };

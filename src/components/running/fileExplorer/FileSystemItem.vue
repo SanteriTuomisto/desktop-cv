@@ -11,6 +11,7 @@
       <BrowserIcon v-else-if="type === 'browser'" />
       <MusicIcon v-else-if="type === 'musicPlayer'" />
       <FileIcon v-else-if="type === 'file'" class="icon" />
+      <FileIcon v-else-if="type === 'terminal'" class="icon" />
     </div>
     <div class="text">
       {{ name }}
