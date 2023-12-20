@@ -22,7 +22,7 @@
       text="Terminal"
       @click="openWindow('Terminal', 'terminal')"
     >
-      <FolderIcon class="icon"/>
+      <TerminalIcon class="icon"/>
     </StartMenuItem>
     <StartMenuItem :id="2" text="Shut down" @click="powerOff">
       <PowerIcon class="icon" />
@@ -32,6 +32,7 @@
 
 <script>
 import FolderIcon from '@/assets/FolderIcon.vue';
+import TerminalIcon from '@/assets/TerminalIcon.vue';
 import PowerIcon from '@/assets/PowerIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
@@ -41,6 +42,7 @@ export default {
   components: {
     StartMenuItem,
     FolderIcon,
+    TerminalIcon,
     PowerIcon,
     MusicIcon,
     BrowserIcon,

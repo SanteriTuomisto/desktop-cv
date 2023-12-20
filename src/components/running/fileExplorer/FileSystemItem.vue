@@ -11,7 +11,7 @@
       <BrowserIcon v-else-if="type === 'browser'" />
       <MusicIcon v-else-if="type === 'musicPlayer'" />
       <FileIcon v-else-if="type === 'file'" class="icon" />
-      <FileIcon v-else-if="type === 'terminal'" class="icon" />
+      <TerminalIcon v-else-if="type === 'terminal'" class="icon" />
     </div>
     <div class="text">
       {{ name }}
@@ -25,12 +25,14 @@ import FolderIcon from '@/assets/FolderIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import FileIcon from '@/assets/FileIcon.vue';
+import TerminalIcon from '@/assets/TerminalIcon.vue';
 
 export default defineComponent({
   emits: ['selected', 'deselected', 'folderClick'],
   components: {
     FolderIcon,
     BrowserIcon,
+    TerminalIcon,
     MusicIcon,
     FileIcon,
   },
@@ -91,7 +93,7 @@ export default defineComponent({
   margin: 10px;
   user-select: none;
   width: 70px;
-  height: 55px;
+  height: 62px;
   gap: 5px;
   overflow: hidden;
   cursor: pointer;

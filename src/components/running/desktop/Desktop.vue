@@ -30,7 +30,7 @@
         name="Terminal"
         @click="openWindow('Terminal', 'terminal')"
       >
-        <FolderIcon />
+        <TerminalIcon />
       </DesktopItem>
     </div>
     <Window
@@ -56,6 +56,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import FolderIcon from '@/assets/FolderIcon.vue';
+import TerminalIcon from '@/assets/TerminalIcon.vue';
 import TrashIcon from '@/assets/TrashIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
@@ -72,6 +73,7 @@ export default {
     Window,
     DesktopItem,
     FolderIcon,
+    TerminalIcon,
     BrowserIcon,
     MusicIcon,
     TrashIcon,
