@@ -19,6 +19,7 @@ interface Application {
   minimized: boolean;
   maximized: boolean;
   size: Size;
+  fileSystemId: number;
 }
 
 interface State {

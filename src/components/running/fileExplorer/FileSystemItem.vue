@@ -78,6 +78,7 @@ export default defineComponent({
       const application = {
         name: this.name,
         type: this.type,
+        fileSystemId: this.id,
       };
       this.$store.dispatch('openApplication', application);
     },
@@ -89,11 +90,10 @@ export default defineComponent({
 .item {
   display: flex;
   flex-direction: column;
-  padding: 5px;
-  margin: 10px;
   user-select: none;
-  width: 70px;
-  height: 62px;
+  justify-content: center;
+  width: 120px;
+  height: 80px;
   gap: 5px;
   overflow: hidden;
   cursor: pointer;

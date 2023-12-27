@@ -170,10 +170,10 @@ export default {
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-  padding: 5px 10px;
+  padding: 5px;
 }
 .disabled {
   color: #9090e6;

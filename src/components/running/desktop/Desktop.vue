@@ -39,13 +39,13 @@
       :app="app"
       :index="index"
       :hideBottomBorder="app.type === 'fileExplorer'"
-      :minW="app.type === 'fileExplorer' ? 450 : 400"
+      :minW="windowMinWidth(app.type)"
       :minH="app.type === 'fileExplorer' ? 350 : 250"
     >
       <FileExplorer v-if="app.type === 'fileExplorer'" />
       <MusicPlayer v-if="app.type === 'musicPlayer'" />
       <Browser v-if="app.type === 'browser'" />
-      <TextEditor v-if="app.type === 'file'" :id="app.id" />
+      <TextEditor v-if="app.type === 'file'" :id="app.id" :fileSystemId="app.fileSystemId" />
       <TerminalWindow v-if="app.type === 'terminal'" />
     </Window>
   </div>
@@ -98,6 +98,15 @@ export default {
         type,
       };
       this.$store.dispatch('openApplication', application);
+    },
+    windowMinWidth(type) {
+      if (type === 'fileExplorer') {
+        return 450;
+      }
+      if (type === 'file') {
+        return 659;
+      }
+      return 400;
     },
   },
   computed: {

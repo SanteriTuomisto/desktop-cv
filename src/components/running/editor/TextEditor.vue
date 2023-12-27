@@ -2,9 +2,12 @@
   <div class="editor">
     <div class="save-btn" @click="savebtn">
       <SaveIcon class="icon" />
+      <div>
+        Save
+      </div>
     </div>
-    <div style="height: 100%;">
-      <Editor v-model="value" editorStyle="height: 220px;"/>
+    <div style="height: 100%; background-color: white;">
+      <Editor v-model="value" editorStyle="height: calc(100% - 42px);" style="height: 100%;" />
     </div>
   </div>
 </template>
@@ -20,15 +23,23 @@ export default {
   },
   props: {
     id: Number,
+    fileSystemId: Number,
   },
   data() {
     return {
       value: '',
     };
   },
+  created() {
+    const fileSystemItem = this.$store.getters.getItem(this.fileSystemId);
+    if (fileSystemItem && fileSystemItem.text) {
+      this.value = fileSystemItem.text;
+    }
+  },
   methods: {
     savebtn() {
       this.$store.dispatch('closeApplication', this.id);
+      this.$store.dispatch('saveFileContent', { id: this.fileSystemId, text: this.value });
     },
   },
 };
@@ -40,12 +51,21 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #5c5cd5;
 }
 
 .save-btn {
-  height: 20px;
-  width: 20px;
-  padding: 10px;
+  height: 24px;
   cursor: pointer;
+  display: flex;
+  padding: 2px 5px;
+  gap: 5px;
+  width: 72px;
+  background-color: #8080ff;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }
 </style>

@@ -5,6 +5,7 @@ interface Item {
   type: 'file' | 'folder' | 'browser' | 'musicPlayer' | 'terminal';
   name: string;
   content?: Array<Item>;
+  text?: string;
 }
 
 interface State {
@@ -84,6 +85,13 @@ const mutations = {
     }
     loopItem.content.push(data.newItem);
   },
+  saveFileContentMut(state: State, data: { id: number, text: string }) {
+    const index = state.fileSystemItems.findIndex(i => i.id === data.id);
+    // TODO rekursive
+    if (index !== -1) {
+      state.fileSystemItems[index].text = data.text;
+    }
+  },
 };
 const actions = {
   addNewFile(context: ActionContext<State, any>, data: { item: Item, currentPath: Item[] }) {
@@ -95,10 +103,17 @@ const actions = {
     context.commit('increaseNextFileIdMut');
     context.commit('addNewFileMut', { currentPath: data.currentPath, newItem });
   },
+  saveFileContent(context: ActionContext<State, any>, data: { id: number, text: string }) {
+    context.commit('saveFileContentMut', data);
+  },
 };
 const getters = {
   getFileSystemItems(state: State) {
     return state.fileSystemItems;
+  },
+  getItem: (state: State) => (id: number) => {
+    // TODO recursive
+    return state.fileSystemItems.find(i => i.id === id);
   },
 };
 
