@@ -2,7 +2,7 @@
   <div class="menu-item"
     @click="menuItemClicked"
   >
-    <div style="margin-right: 12px;">
+    <div>
       <slot/>
     </div>
     <div>
@@ -11,8 +11,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   emits: ['menuItemClicked'],
   props: {
     text: {
@@ -26,14 +28,17 @@ export default {
       this.$emit('menuItemClicked');
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
   .menu-item {
     display: flex;
+    padding-left: 12px;
+    gap: 15px;
     background-color: #8080ff;
-    padding: 10px;
+    height: 50px;
+    align-items: center;
     border-top: 4px solid #b9b9ff;
     border-left: 4px solid #b9b9ff;
     border-bottom: 4px solid #5c5cd5;

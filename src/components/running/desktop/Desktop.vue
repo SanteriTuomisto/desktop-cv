@@ -21,8 +21,8 @@
         <MusicIcon />
       </DesktopItem>
       <DesktopItem
-        name="File Explorer"
-        @click="openWindow('File Explorer', 'fileExplorer')"
+        name="Files"
+        @click="openWindow('Files', 'fileExplorer')"
       >
         <FolderIcon />
       </DesktopItem>
@@ -32,13 +32,25 @@
       >
         <TerminalIcon />
       </DesktopItem>
+      <DesktopItem
+        name="Settings"
+        @click="openWindow('Settings', 'settings')"
+      >
+        <SettingsIcon />
+      </DesktopItem>
+      <DesktopItem
+        name="Monster Slayer"
+        @click="openWindow('Monster Slayer', 'monsterSlayer')"
+      >
+        <MonsterIcon />
+      </DesktopItem>
     </div>
     <Window
       v-for="app, index in applications" :key="app.id"
       :id="app.id"
       :app="app"
       :index="index"
-      :hideBottomBorder="app.type === 'fileExplorer'"
+      :hideBottomBorder="app.type === 'fileExplorer' || app.type === 'browser'"
       :minW="windowMinWidth(app.type)"
       :minH="app.type === 'fileExplorer' ? 350 : 250"
     >
@@ -47,9 +59,17 @@
       <Browser v-if="app.type === 'browser'" />
       <TextEditor v-if="app.type === 'file'" :id="app.id" :fileSystemId="app.fileSystemId" />
       <TerminalWindow v-if="app.type === 'terminal'" />
+      <SettingsWindow v-if="app.type === 'settings'" />
+      <MonsterSlayer v-if="app.type === 'monsterSlayer'" />
     </Window>
   </div>
-  <div class="desktop-background">
+  <div class="desktop-background"
+    :class="{
+      'desktop-background-1': getBackground === '1',
+      'desktop-background-2': getBackground === '2',
+      'desktop-background-3': getBackground === '3',
+    }"
+  >
   </div>
 </template>
 
@@ -60,6 +80,7 @@ import TerminalIcon from '@/assets/TerminalIcon.vue';
 import TrashIcon from '@/assets/TrashIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
+import SettingsIcon from '@/assets/SettingsIcon.vue';
 import Window from './Window.vue';
 import DesktopItem from './DesktopItem.vue';
 import FileExplorer from '../fileExplorer/FileExplorer.vue';
@@ -67,6 +88,9 @@ import Browser from '../browser/Browser.vue';
 import MusicPlayer from '../musicPlayer/MusicPlayer.vue';
 import TextEditor from '../editor/TextEditor.vue';
 import TerminalWindow from '../terminal/TerminalWindow.vue';
+import SettingsWindow from '../settings/SettingsWindow.vue';
+import MonsterIcon from '@/assets/MonsterIcon.vue';
+import MonsterSlayer from '@/components/projects/monsterSlayer/MonsterSlayer.vue';
 
 export default {
   components: {
@@ -82,6 +106,10 @@ export default {
     MusicPlayer,
     TextEditor,
     TerminalWindow,
+    SettingsWindow,
+    SettingsIcon,
+    MonsterSlayer,
+    MonsterIcon,
   },
   data() {
     return {
@@ -112,6 +140,7 @@ export default {
   computed: {
     ...mapGetters({  
       getApplications: 'getApplications',
+      getBackground: 'getBackground',
     }),
   },
   watch: {
@@ -136,9 +165,20 @@ export default {
     height: calc(100vh - 46px);
     width: 100%;
     background: rgb(0,124,128);
-    background: linear-gradient(63deg, rgba(0,124,128,1) 0%, rgba(0,128,67,1) 100%);
     display: flex;
     flex-direction: column;
+
+    &-1 {
+      background: linear-gradient(63deg, rgba(0,124,128,1) 0%, rgba(0,128,67,1) 100%);
+    }
+
+    &-2 {
+      background: linear-gradient(342deg, rgba(52,148,230,1) 0%, rgba(236,110,173,1) 100%);
+    }
+
+    &-3 {
+      background: linear-gradient(42deg, rgba(255,100,246,1) 0%, rgba(233,255,106,1) 100%);
+    }
   }
 
   .desktop-item-wrapper {

@@ -53,7 +53,9 @@ export default {
 
 <style scoped lang="scss">
   .menu-item {
-    padding: 10px;
+    padding: 0px 10px;
+    display: flex;
+    align-items: center;
     color: #ffff00;
     font-weight: bold;
     user-select: none;

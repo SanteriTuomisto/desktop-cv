@@ -1,34 +1,33 @@
 <template>
   <div class="container">
     <div class="page" v-if="!searchOpen">
-      <div class="logo">
-        <span style="color: blue;">B</span>
-        <span style="color: red;">o</span>
-        <span style="color: rgb(255, 187, 18);">o</span>
-        <span style="color: blue;">g</span>
-        <span style="color: green;">l</span>
-        <span style="color: red;">e</span>
+      <BoogleLogo />
+      <div>
+        <input
+          type="text"
+          v-model="value"
+          placeholder="Search Boogle or type a URL"
+          class="search"
+          style="margin-top: 20px;"
+          @keyup.enter="() => searchAction(value)"
+        />
       </div>
       <div>
-        <input type="text" v-model="value" placeholder="Search Boogle or type a URL" class="search" style="margin-top: 20px;" />
-      </div>
-      <div>
-        <button @click="() => search(value)">Search</button>
+        <button @click="() => searchAction(value)">Search</button>
       </div>
     </div>
     <div v-else class="search-page">
       <div class="search-bar">
-        <div class="logo">
-          <span style="color: blue;">B</span>
-          <span style="color: red;">o</span>
-          <span style="color: rgb(255, 187, 18);">o</span>
-          <span style="color: blue;">g</span>
-          <span style="color: green;">l</span>
-          <span style="color: red;">e</span>
-        </div>
+        <BoogleLogo />
         <div>
-          <input type="text" v-model="value" placeholder="Search Boogle or type a URL" class="search" />
-          <button @click="() => search(value)">Search</button>
+          <input
+            type="text"
+            v-model="value"
+            placeholder="Search Boogle or type a URL"
+            class="search"
+            @keyup.enter="() => searchAction(value)"
+          />
+          <button @click="() => searchAction(value)">Search</button>
         </div>
       </div>
       <div class="results">
@@ -42,9 +41,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
+<script lang="ts">
+import { defineComponent } from 'vue';
+import BoogleLogo from './BoogleLogo.vue';
+
+export default defineComponent({
+  components: {
+    BoogleLogo,
+  },
+  data(): {
+    value: string;
+    searchOpen: boolean;
+    searchedWord: string;
+  } {
     return {
       value: '',
       searchOpen: false,
@@ -52,17 +61,17 @@ export default {
     };
   },
   methods: {
-    search(searchValue) {
+    searchAction(searchValue: string) {
       if (searchValue !== '') {
         this.searchOpen = true;
         this.searchedWord = searchValue;
       } else {
         this.searchOpen = false;
-        this.searchWord = '';
+        this.searchedWord = '';
       }
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
@@ -78,11 +87,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.logo {
-  font-size: 40px;
-  letter-spacing: -1px;
 }
 
 .search {

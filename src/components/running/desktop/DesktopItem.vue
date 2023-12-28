@@ -49,10 +49,13 @@ export default {
     height: 44px;
     width: 44px;
     color: #393983;
+    display: flex;
+    align-items: center;
   }
   .item-name {
     margin-top: 10px;
     font-weight: bold;
+    text-align: center;
   }
   .desktop-item:active {
     border: 1px solid coral;

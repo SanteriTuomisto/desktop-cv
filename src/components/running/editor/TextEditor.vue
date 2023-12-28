@@ -32,8 +32,8 @@ export default {
   },
   created() {
     const fileSystemItem = this.$store.getters.getItem(this.fileSystemId);
-    if (fileSystemItem && fileSystemItem.text) {
-      this.value = fileSystemItem.text;
+    if (fileSystemItem && fileSystemItem.data) {
+      this.value = fileSystemItem.data;
     }
   },
   methods: {

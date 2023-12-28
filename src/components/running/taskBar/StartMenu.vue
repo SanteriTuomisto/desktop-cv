@@ -7,14 +7,14 @@
       <BrowserIcon class="icon" />
     </StartMenuItem>
     <StartMenuItem
-      text="Music Player"
-      @click="openWindow('Music Player', 'musicPlayer')"
+      text="Music"
+      @click="openWindow('Music', 'musicPlayer')"
     >
       <MusicIcon class="icon" />
     </StartMenuItem>
     <StartMenuItem
-      text="File Explorer"
-      @click="openWindow('File Explorer', 'fileExplorer')"
+      text="Files"
+      @click="openWindow('Files', 'fileExplorer')"
     >
       <FolderIcon class="icon"/>
     </StartMenuItem>
@@ -23,6 +23,12 @@
       @click="openWindow('Terminal', 'terminal')"
     >
       <TerminalIcon class="icon"/>
+    </StartMenuItem>
+    <StartMenuItem
+      text="Settings"
+      @click="openWindow('Settings', 'settings')"
+    >
+      <SettingsIcon class="icon"/>
     </StartMenuItem>
     <StartMenuItem :id="2" text="Shut down" @click="powerOff">
       <PowerIcon class="icon" />
@@ -36,6 +42,7 @@ import TerminalIcon from '@/assets/TerminalIcon.vue';
 import PowerIcon from '@/assets/PowerIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
+import SettingsIcon from '@/assets/SettingsIcon.vue';
 import StartMenuItem from './StartMenuItem.vue';
 
 export default {
@@ -46,6 +53,7 @@ export default {
     PowerIcon,
     MusicIcon,
     BrowserIcon,
+    SettingsIcon,
   },
   props: {
     showStartMenu: {
@@ -86,7 +94,8 @@ export default {
 }
 
 .icon {
-  width: 15px;
-  height: 15px;
+  margin-top: 4px;
+  width: 20px;
+  height: 20px;
 }
 </style>

@@ -5,12 +5,12 @@ interface Item {
   type: 'file' | 'folder' | 'browser' | 'musicPlayer' | 'terminal';
   name: string;
   content?: Array<Item>;
-  text?: string;
 }
 
 interface State {
   nextFileId: number;
   fileSystemItems: Array<Item>;
+  fileData: { id: number; data: string }[];
 }
 
 const state: State = {
@@ -56,6 +56,7 @@ const state: State = {
       name: 'Terminal',
     },
   ],
+  fileData: [],
 };
 
 const mutations = {
@@ -86,10 +87,11 @@ const mutations = {
     loopItem.content.push(data.newItem);
   },
   saveFileContentMut(state: State, data: { id: number, text: string }) {
-    const index = state.fileSystemItems.findIndex(i => i.id === data.id);
-    // TODO rekursive
-    if (index !== -1) {
-      state.fileSystemItems[index].text = data.text;
+    const index = state.fileData.findIndex(i => i.id === data.id);
+    if (index === -1) {
+      state.fileData.push({ id: data.id, data: data.text });
+    } else {
+      state.fileData[index] = { ...state.fileData[index], data: data.text };
     }
   },
 };
@@ -112,8 +114,7 @@ const getters = {
     return state.fileSystemItems;
   },
   getItem: (state: State) => (id: number) => {
-    // TODO recursive
-    return state.fileSystemItems.find(i => i.id === id);
+    return state.fileData.find(i => i.id === id);
   },
 };
 

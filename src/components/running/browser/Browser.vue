@@ -1,19 +1,14 @@
 <template>
   <div style="width: 100%; height: 100%;">
-    <div style="display: flex; width: 100%;">
-      <div style="flex: 0 0 30px;">
-        <button v-if="history.length > 1" type="button" @click="backwards">
-          &lt;-
-        </button>
+    <div class="browser-toolbar">
+      <div style="flex: 0 0 40px; height: 25px;">
+        <ArrowLeft v-if="history.length > 1" @click="backwards" style="height: 25px; width: 25px; cursor: pointer;" />
       </div>
-      <div style="flex: 0 0 30px;">
-        ->
-      </div>
-      <div style="flex: 0 0 50px;">
-        <button @click="home">home</button>
+      <div style="flex: 0 0 40px; height: 25px;">
+        <HomeIcon @click="home" style="height: 25px; width: 25px; cursor: pointer;" />
       </div>
       <div style="flex: 1 1 auto;">
-        <input type="text" style="width: 90%;" :value="currentUrl" @keyup.enter="urlBarEnter" />
+        <MyInput :value="currentUrl" style="width: 90%;" @keyup.enter="urlBarEnter" />
       </div>
     </div>
     <div class="browser-content">
@@ -34,10 +29,13 @@ import Scroller from '@/components/_shared/Scroller.vue';
 import {
   NetworkItem,
 } from '@/store/browser';
-import Boogle from './webpages/Boogle.vue';
+import Boogle from './webpages/boogle/Boogle.vue';
 import Empty from './webpages/Empty.vue';
 import Bacefook from './webpages/Bacefook.vue';
 import DadGpt from './webpages/DadGpt.vue';
+import HomeIcon from '@/assets/HomeIcon.vue';
+import ArrowLeft from '@/assets/ArrowLeft.vue';
+import MyInput from '@/components/_shared/MyInput.vue';
 
 export default defineComponent({
   components: {
@@ -46,6 +44,9 @@ export default defineComponent({
     Bacefook,
     DadGpt,
     Scroller,
+    HomeIcon,
+    ArrowLeft,
+    MyInput,
   },
   data(): {
     history: NetworkItem[];
@@ -89,9 +90,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.browser-toolbar {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  padding-left: 15px;
+  background-color: #7575e8;
+  border-left: 4px solid #b9b9ff;
+  border-bottom: 4px solid #5c5cd5;
+  border-right: 4px solid #5c5cd5;
+}
+
 .browser-content {
-  height: calc(100% - 22px);
+  height: calc(100% - 50px);
   width: 100%;
   overflow: hidden;
+  background-color: #333362;
 }
 </style>
