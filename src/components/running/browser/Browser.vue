@@ -12,10 +12,11 @@
       </div>
     </div>
     <div class="browser-content">
-      <Scroller>
+      <Scroller :scrollOn="currentPage?.name !== 'myOs'">
         <Boogle v-if="currentPage?.name === 'Boogle'"/>
         <Bacefook v-else-if="currentPage?.name === 'Bacefook'" />
         <DadGpt v-else-if="currentPage?.name === 'DadGPT'" />
+        <myOs v-else-if="currentPage?.name === 'myOs'" />
         <Empty v-else-if="currentPage == null || currentPage.name === '404'" />
       </Scroller>
     </div>
@@ -33,6 +34,7 @@ import Boogle from './webpages/boogle/Boogle.vue';
 import Empty from './webpages/Empty.vue';
 import Bacefook from './webpages/Bacefook.vue';
 import DadGpt from './webpages/DadGpt.vue';
+import myOs from './webpages/myOs.vue';
 import HomeIcon from '@/assets/HomeIcon.vue';
 import ArrowLeft from '@/assets/ArrowLeft.vue';
 import MyInput from '@/components/_shared/MyInput.vue';
@@ -43,6 +45,7 @@ export default defineComponent({
     Empty,
     Bacefook,
     DadGpt,
+    myOs,
     Scroller,
     HomeIcon,
     ArrowLeft,

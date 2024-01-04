@@ -1,10 +1,30 @@
 <template>
-  <div class="scrollbar">
+  <div :class="{
+    scrollbar: scrollOn,
+    scrollOff: !scrollOn,
+  }">
     <slot />
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+export default defineComponent({
+  props: {
+    scrollOn: {
+      type: Boolean,
+      default: true,
+    },
+  },
+});
+</script>
+
 <style lang="scss" scoped>
+.scrollOff {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 .scrollbar {
   width: 100%;
   height: 100%;

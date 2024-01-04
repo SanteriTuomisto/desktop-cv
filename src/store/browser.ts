@@ -21,6 +21,10 @@ const dadGpt: NetworkItem = {
   name: 'DadGPT',
   url: 'www.dadgpt.com',
 };
+const myOs: NetworkItem = {
+  name: 'myOs',
+  url: 'www.myos.com',
+};
 
 interface State {
   history: NetworkItem[];
@@ -34,6 +38,7 @@ const state: State = {
     empty,
     bacefook,
     dadGpt,
+    myOs,
   ]
 }
 
