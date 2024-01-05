@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%; width: 100%;">
     <Terminal
-      welcomeMessage="myOs 1.0.4"
+      :welcomeMessage="`myOs ${$store.state.version}`"
       :prompt="prompt"
       aria-label="Terminal"
       class="terminal"
@@ -47,16 +47,7 @@ export default {
 
       switch (command) {
         case "help":
-          response = "commands: date, greet {0}, random, ls, cd {0}, open {0}";
-          break;
-        case "date":
-          response = "Today is " + new Date().toDateString();
-          break;
-        case "greet":
-          response = "Moi " + text.substring(argsIndex + 1);
-          break;
-        case "random":
-          response = Math.floor(Math.random() * 100);
+          response = "commands: ls, cd {0}, open {0}";
           break;
         case "ls":
           for (let i = 0; i < this.getCurrentFolder.length; i += 1) {
@@ -77,6 +68,7 @@ export default {
           } else {
             response = "No such folder";
           }
+          // TODO vastaa ls?
           break;
         case "open":
           // eslint-disable-next-line

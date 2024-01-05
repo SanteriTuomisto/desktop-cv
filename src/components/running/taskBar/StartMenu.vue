@@ -1,34 +1,17 @@
 <template>
   <div v-if="showStartMenu" id="menu">
     <StartMenuItem
-      text="Browser"
-      @click="openWindow('Browser', 'browser')"
+      v-for="(item, index) in getStartMenuItems"
+      :key="index"
+      :text="item.name"
+      @click="openWindow(item.name, item.type)"
     >
-      <BrowserIcon class="icon" />
-    </StartMenuItem>
-    <StartMenuItem
-      text="Music"
-      @click="openWindow('Music', 'musicPlayer')"
-    >
-      <MusicIcon class="icon" />
-    </StartMenuItem>
-    <StartMenuItem
-      text="Files"
-      @click="openWindow('Files', 'fileExplorer')"
-    >
-      <FolderIcon class="icon"/>
-    </StartMenuItem>
-    <StartMenuItem
-      text="Terminal"
-      @click="openWindow('Terminal', 'terminal')"
-    >
-      <TerminalIcon class="icon"/>
-    </StartMenuItem>
-    <StartMenuItem
-      text="Settings"
-      @click="openWindow('Settings', 'settings')"
-    >
-      <SettingsIcon class="icon"/>
+      <BrowserIcon v-if="item.type === 'browser'" class="icon" />
+      <MusicIcon v-else-if="item.type === 'musicPlayer'" class="icon" />
+      <FolderIcon v-else-if="item.type === 'fileExplorer' || item.type === 'folder'" class="icon" />
+      <TerminalIcon v-else-if="item.type === 'terminal'" class="icon" />
+      <SettingsIcon v-else-if="item.type === 'settings'" class="icon" />
+      <FileIcon v-else-if="item.type === 'file'" class="icon" />
     </StartMenuItem>
     <StartMenuItem :id="2" text="Shut down" @click="powerOff">
       <PowerIcon class="icon" />
@@ -36,16 +19,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 import FolderIcon from '@/assets/FolderIcon.vue';
 import TerminalIcon from '@/assets/TerminalIcon.vue';
 import PowerIcon from '@/assets/PowerIcon.vue';
+import FileIcon from '@/assets/FileIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
 import SettingsIcon from '@/assets/SettingsIcon.vue';
 import StartMenuItem from './StartMenuItem.vue';
+import { Item, ApplicationType } from '@/store/fileSystem';
 
-export default {
+export default defineComponent({
   components: {
     StartMenuItem,
     FolderIcon,
@@ -54,6 +41,7 @@ export default {
     MusicIcon,
     BrowserIcon,
     SettingsIcon,
+    FileIcon,
   },
   props: {
     showStartMenu: {
@@ -65,7 +53,7 @@ export default {
     powerOff() {
       this.$store.dispatch('togglePower');
     },
-    openWindow(name, type) {
+    openWindow(name: string, type: ApplicationType) {
       const application = {
         name,
         type,
@@ -73,7 +61,15 @@ export default {
       this.$store.dispatch('openApplication', application);
     },
   },
-};
+  computed: {
+    ...mapGetters({  
+      getFileSystemItems: 'getFileSystemItems',
+    }),
+    getStartMenuItems() {
+      return this.getFileSystemItems.find((i: Item) => i.name === 'Start Menu')?.content || [];
+    },
+  },
+});
 </script>
 
 <style scoped lang="scss">

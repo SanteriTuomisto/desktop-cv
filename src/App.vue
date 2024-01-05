@@ -26,6 +26,15 @@ export default {
     ShutDown,
     Startup,
   },
+  created() {
+    // Clear vuex persist if version has changed
+    const currentVersion = process.env.VUE_APP_VERSION;
+    console.log(currentVersion);
+    if (this.$store.state.version !== currentVersion) {
+      localStorage.removeItem('myOs-persist-store');
+    }
+    this.$store.dispatch('setVersion', currentVersion);
+  },
   computed: {
     shutDownState() {
       if (process.env.NODE_ENV === 'development') {

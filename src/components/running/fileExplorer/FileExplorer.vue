@@ -26,9 +26,12 @@
           }" />
         </div>
         <div title="Delete" style="height: 30px;">
-          <TrashIcon class="icon" :class="{
-            'disabled': selectedItems.length === 0,
-          }" />
+          <TrashIcon class="icon"
+            :class="{
+              'disabled': selectedItems.length === 0,
+            }"
+            @click="deleteSelectedItems"
+          />
         </div>
       </div>
     </div>
@@ -111,11 +114,20 @@ export default {
     back() {
       this.paths.pop();
     },
+    checkName(name, integer = 1) {
+      const combinedName = `${name} ${integer}`;
+      const nameExists = this.getCurrentFolder.find(i => i.name.toLowerCase() === combinedName.toLowerCase());
+      if (nameExists) {
+        return this.checkName(name, integer += 1);
+      } else {
+        return combinedName;
+      }
+    },
     addNewFolder() {
       this.$store.dispatch('addNewFile', {
         currentPath: this.paths,
         item: {
-          name: 'Folder',
+          name: this.checkName('Folder'),
           type: 'folder',
         },
       });
@@ -124,10 +136,22 @@ export default {
       this.$store.dispatch('addNewFile', {
         currentPath: this.paths,
         item: {
-          name: 'Text',
+          name: this.checkName('Text'),
           type: 'file',
         },
       });
+    },
+    deleteSelectedItems() {
+      if (this.selectedItems.length === 0) {
+        return;
+      }
+      this.selectedItems.forEach((id) => {
+        this.$store.dispatch('deleteFile', {
+          currentPath: this.paths,
+          id,
+        });
+      });
+      this.selectedItems = [];
     },
   },
   computed: {

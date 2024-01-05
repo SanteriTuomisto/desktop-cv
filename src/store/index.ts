@@ -6,12 +6,14 @@ import fileSystem from './fileSystem';
 import settings from './settings';
 
 interface State {
+  version: string | null;
   powerOn: boolean;
   startup: boolean;
   showStartMenu: boolean;
 }
 
 const state: State = {
+  version: '1.0.4',
   powerOn: false,
   startup: false,
   showStartMenu: false,
@@ -28,6 +30,9 @@ export const store = createStore({
     },
     setStartMenuMutation(state: State) {
       state.showStartMenu = !state.showStartMenu;
+    },
+    setVersionMutation(state: State, version: string) {
+      state.version = version;
     },
   },
   actions: {
@@ -46,6 +51,9 @@ export const store = createStore({
     toggleStartup({ commit }) {
       commit('setStartupMutation');
     },
+    setVersion({ commit }, version: string) {
+      commit('setVersionMutation', version);
+    },
   },
   modules: {
     applications,
@@ -53,5 +61,5 @@ export const store = createStore({
     browser,
     settings,
   },
-  plugins: [new VuexPersistence().plugin],
+  plugins: [new VuexPersistence({ key: 'myOs-persist-store' }).plugin],
 });

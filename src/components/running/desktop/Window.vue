@@ -3,7 +3,12 @@
     v-show="!minimized"
     @click="setActive"
     class="resizable"
-    :class="active ? 'active' : 'inactive'"
+    :class="{
+      'active-window': active && !maximized,
+      'active-full': active && maximized,
+      'inactive-window': !active && !maximized,
+      'inactive-full': !active && maximized,
+    }"
     ref="resizableComponent"
     :dragSelector="dragSelector"
     :active="handlers"
@@ -82,6 +87,14 @@ export default {
       type: Number,
       default: 250,
     },
+    initWidth: {
+      type: Number,
+      default: 500,
+    },
+    initHeight: {
+      type: Number,
+      default: 350,
+    },
   },
   created() {
     const activeId = this.getActiveWindowId;
@@ -92,8 +105,8 @@ export default {
     this.updateApplicationToStore();
   },
   data() {
-    const tW = 500;
-    const tH = 350;
+    const tW = this.initWidth;
+    const tH = this.initHeight;
     const offset = this.index * 20;
     return {
       minimized: false,
@@ -117,6 +130,9 @@ export default {
       this.left = data.left;
       this.top = data.top;
       this.event = data.eventName;
+      if (data.eventName === 'drag:move') {
+        this.maximized = false;
+      }
       this.updateApplicationToStore();
     },
     minimizeWindow() {
@@ -153,6 +169,7 @@ export default {
     updateApplicationToStore() {
       this.$store.dispatch('updateApplication', {
         id: this.id,
+        type: this.app.type,
         minimized: this.minimized,
         maximized: this.maximized,
         position: {
@@ -189,7 +206,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .active {
+  .active-window {
     z-index: 1;
     border-top: 4px solid #004080;
     border-left: 4px solid #004080;
@@ -198,12 +215,22 @@ export default {
     box-shadow: 2px 2px 0px 2px #000000;
   }
 
-  .inactive {
+  .active-full {
+    z-index: 1;
+  }
+
+  .inactive-window {
     border-top: 4px solid #5f7b97;
     border-left: 4px solid #5f7b97;
     border-right: 4px solid #393983;
     border-bottom: 4px solid #393983;
     z-index: 0;
+    // opacity: 0.9;
+  }
+
+  .inactive-full {
+    z-index: 0;
+    // opacity: 0.9;
   }
 
   .topbar-buttons {

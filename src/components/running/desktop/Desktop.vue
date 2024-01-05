@@ -3,46 +3,19 @@
   <div id="desktop">
     <div class="desktop-item-wrapper">
       <DesktopItem
-        name="Recycle Bin"
-        @click="openWindow('Recycle Bin', 'recycleBin')"
+        v-for="(item, index) in getDesktopItems"
+        :key="index"
+        :name="item.name"
+        @click="openWindow(item.name, item.type)"
       >
-        <TrashIcon />
-      </DesktopItem>
-      <DesktopItem
-        name="Browser"
-        @click="openWindow('Browser', 'browser')"
-      >
-        <BrowserIcon />
-      </DesktopItem>
-      <DesktopItem
-        name="Music"
-        @click="openWindow('Music', 'musicPlayer')"
-      >
-        <MusicIcon />
-      </DesktopItem>
-      <DesktopItem
-        name="Files"
-        @click="openWindow('Files', 'fileExplorer')"
-      >
-        <FolderIcon />
-      </DesktopItem>
-      <DesktopItem
-        name="Terminal"
-        @click="openWindow('Terminal', 'terminal')"
-      >
-        <TerminalIcon />
-      </DesktopItem>
-      <DesktopItem
-        name="Settings"
-        @click="openWindow('Settings', 'settings')"
-      >
-        <SettingsIcon />
-      </DesktopItem>
-      <DesktopItem
-        name="Monster Slayer"
-        @click="openWindow('Monster Slayer', 'monsterSlayer')"
-      >
-        <MonsterIcon />
+        <BrowserIcon v-if="item.type === 'browser'" />
+        <MusicIcon v-else-if="item.type === 'musicPlayer'" />
+        <FolderIcon v-else-if="item.type === 'fileExplorer' || item.type === 'folder'" />
+        <TerminalIcon v-else-if="item.type === 'terminal'" />
+        <SettingsIcon v-else-if="item.type === 'settings'" />
+        <FileIcon v-else-if="item.type === 'file'" />
+        <TrashIcon v-else-if="item.type === 'recycleBin'" />
+        <MonsterIcon v-else-if="item.type === 'monsterSlayer'" />
       </DesktopItem>
     </div>
     <Window
@@ -53,6 +26,8 @@
       :hideBottomBorder="app.type === 'fileExplorer' || app.type === 'browser'"
       :minW="windowMinWidth(app.type)"
       :minH="app.type === 'fileExplorer' ? 350 : 250"
+      :initHeight="getWindowSize(app.type).height"
+      :initWidth="getWindowSize(app.type).width"
     >
       <FileExplorer v-if="app.type === 'fileExplorer'" />
       <MusicPlayer v-if="app.type === 'musicPlayer'" />
@@ -73,13 +48,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import FolderIcon from '@/assets/FolderIcon.vue';
 import TerminalIcon from '@/assets/TerminalIcon.vue';
 import TrashIcon from '@/assets/TrashIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
+import FileIcon from '@/assets/FileIcon.vue';
 import SettingsIcon from '@/assets/SettingsIcon.vue';
 import Window from './Window.vue';
 import DesktopItem from './DesktopItem.vue';
@@ -91,8 +68,10 @@ import TerminalWindow from '../terminal/TerminalWindow.vue';
 import SettingsWindow from '../settings/SettingsWindow.vue';
 import MonsterIcon from '@/assets/MonsterIcon.vue';
 import MonsterSlayer from '@/components/projects/monsterSlayer/MonsterSlayer.vue';
+import { Item, ApplicationType } from '@/store/fileSystem';
+import { Application } from '@/store/applications';
 
-export default {
+export default defineComponent({
   components: {
     Window,
     DesktopItem,
@@ -100,6 +79,7 @@ export default {
     TerminalIcon,
     BrowserIcon,
     MusicIcon,
+    FileIcon,
     TrashIcon,
     FileExplorer,
     Browser,
@@ -111,7 +91,9 @@ export default {
     MonsterSlayer,
     MonsterIcon,
   },
-  data() {
+  data(): {
+    applications: Application[];
+  } {
     return {
       applications: [],
     };
@@ -120,14 +102,14 @@ export default {
     this.applications = this.getApplications;
   },
   methods: {
-    openWindow(name, type) {
+    openWindow(name: string, type: ApplicationType) {
       const application = {
         name,
         type,
       };
       this.$store.dispatch('openApplication', application);
     },
-    windowMinWidth(type) {
+    windowMinWidth(type: ApplicationType) {
       if (type === 'fileExplorer') {
         return 450;
       }
@@ -136,19 +118,26 @@ export default {
       }
       return 400;
     },
+    getWindowSize(type: ApplicationType) {
+      return this.$store.getters.getWindowSize(type);
+    },
   },
   computed: {
     ...mapGetters({  
       getApplications: 'getApplications',
       getBackground: 'getBackground',
+      getFileSystemItems: 'getFileSystemItems',
     }),
+    getDesktopItems() {
+      return this.getFileSystemItems.find((i: Item) => i.name === 'Desktop')?.content || [];
+    },
   },
   watch: {
     getApplications(apps) {
       this.applications = apps;
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

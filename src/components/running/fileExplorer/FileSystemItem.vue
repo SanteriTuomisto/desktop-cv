@@ -7,11 +7,14 @@
     @dblclick="dblclick"
   >
     <div class="icon">
-      <FolderIcon v-if="type === 'folder'" />
+      <FolderIcon v-if="type === 'folder' || type === 'fileExplorer'" />
       <BrowserIcon v-else-if="type === 'browser'" />
+      <SettingsIcon v-else-if="type === 'settings'" />
       <MusicIcon v-else-if="type === 'musicPlayer'" />
       <FileIcon v-else-if="type === 'file'" class="icon" />
       <TerminalIcon v-else-if="type === 'terminal'" class="icon" />
+      <TrashIcon v-else-if="type === 'recycleBin'" class="icon" />
+      <MonsterIcon v-else-if="type === 'monsterSlayer'" class="icon" />
     </div>
     <div class="text">
       {{ name }}
@@ -23,9 +26,12 @@
 import { defineComponent } from 'vue';
 import FolderIcon from '@/assets/FolderIcon.vue';
 import BrowserIcon from '@/assets/BrowserIcon.vue';
+import SettingsIcon from '@/assets/SettingsIcon.vue';
 import MusicIcon from '@/assets/MusicIcon.vue';
 import FileIcon from '@/assets/FileIcon.vue';
+import MonsterIcon from '@/assets/MonsterIcon.vue';
 import TerminalIcon from '@/assets/TerminalIcon.vue';
+import TrashIcon from '@/assets/TrashIcon.vue';
 
 export default defineComponent({
   emits: ['selected', 'deselected', 'folderClick'],
@@ -35,6 +41,9 @@ export default defineComponent({
     TerminalIcon,
     MusicIcon,
     FileIcon,
+    SettingsIcon,
+    MonsterIcon,
+    TrashIcon,
   },
   props: {
     id: {

@@ -19,7 +19,7 @@
 export default {
   mounted() {
     setTimeout(() => {
-      this.row2 = 'VERSION 1.0.4';
+      this.row2 = `VERSION ${this.$store.state.version}`;
     }, 700);
     setTimeout(() => {
       this.row3 = 'CPU: Intel (R) CPU 330';

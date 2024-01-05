@@ -1,6 +1,6 @@
 import { ActionContext } from 'vuex';
 
-type ApplicationType = 'fileExplorer' | 'browser' | 'recycleBin' | 'musicPlayer' | 'terminal' | 'settings';
+type ApplicationType = 'monsterSlayer' | 'file' | 'fileExplorer' | 'browser' | 'recycleBin' | 'musicPlayer' | 'terminal' | 'settings';
 
 interface Position {
   top: number;
@@ -12,7 +12,7 @@ interface Size {
   height: number;
 }
 
-interface Application {
+export interface Application {
   id: number;
   type: ApplicationType;
   position: Position;
@@ -26,12 +26,14 @@ interface State {
   id: number;
   applications: Array<Application>;
   activeWindowId: number | null;
+  windowSize: { [key: string]: Size }
 }
 
 const state: State = {
   id: 0,
   applications: [],
   activeWindowId: null,
+  windowSize: {},
 };
 
 const mutations = {
@@ -57,6 +59,9 @@ const mutations = {
   setActiveWindowIdMutation(state: State, id: number) {
     state.activeWindowId = id;
   },
+  saveWindowSizeMutation(state: State, { type, size }: { type: ApplicationType, size: Size }) {
+    state.windowSize[type] = size;
+  },
 };
 
 const actions = {
@@ -72,6 +77,7 @@ const actions = {
   },
   updateApplication(context: ActionContext<State, any>, application: Application) {
     context.commit('updateApplicationMutation', application);
+    context.commit('saveWindowSizeMutation', { type: application.type, size: application.size });
   },
   closeApplication(context: ActionContext<State, any>, id: number) {
     context.commit('closeApplicationMutation', id);
@@ -101,15 +107,18 @@ const actions = {
 };
 
 const getters = {
-  getApplications(state: State) {
+  getApplications(state: State): Application[] {
     return state.applications;
   },
-  getActiveWindowId(state: State) {
+  getActiveWindowId(state: State): number | null {
     return state.activeWindowId;
   },
-  getApplicationById: (state: State) => (id: number) => {
+  getApplicationById: (state: State) => (id: number): Application | undefined => {
     return state.applications.find(app => app.id === id);
-  }
+  },
+  getWindowSize: (state: State) => (type: string): Size => {
+    return state.windowSize[type] || { width: 500, height: 350 };
+  },
 };
 
 export default {

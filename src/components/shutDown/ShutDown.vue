@@ -46,6 +46,9 @@ export default {
   },
   methods: {
     start() {
+      if (this.powerOn) {
+        return;
+      }
       this.powerOn = true;
       setTimeout(() => {
         this.zoom = true;

@@ -1,8 +1,10 @@
 import { ActionContext } from 'vuex';
 
-interface Item {
+export type ApplicationType = 'file' | 'folder' | 'browser' | 'musicPlayer' | 'terminal' | 'settings' | 'fileExplorer' | 'recycleBin' | 'monsterSlayer';
+
+export interface Item {
   id: number;
-  type: 'file' | 'folder' | 'browser' | 'musicPlayer' | 'terminal';
+  type: ApplicationType;
   name: string;
   content?: Array<Item>;
 }
@@ -14,7 +16,7 @@ interface State {
 }
 
 const state: State = {
-  nextFileId: 6,
+  nextFileId: 20,
   fileSystemItems: [
     {
       id: 0,
@@ -29,14 +31,88 @@ const state: State = {
             {
               id: 5,
               type: 'file',
-              name: 'Test',
+              name: 'Text',
             }
           ],
         },
         {
           id: 4,
+          type: 'file',
+          name: 'Text',
+        },
+      ],
+    },
+    {
+      id: 6,
+      type: 'folder',
+      name: 'Start Menu',
+      content: [
+        {
+          id: 7,
           type: 'browser',
           name: 'Browser',
+        },
+        {
+          id: 8,
+          type: 'musicPlayer',
+          name: 'Music',
+        },
+        {
+          id: 9,
+          type: 'fileExplorer',
+          name: 'Files',
+        },
+        {
+          id: 10,
+          type: 'terminal',
+          name: 'Terminal',
+        },
+        {
+          id: 11,
+          type: 'settings',
+          name: 'Settings',
+        },
+      ],
+    },
+    {
+      id: 12,
+      type: 'folder',
+      name: 'Desktop',
+      content: [
+        {
+          id: 13,
+          type: 'recycleBin',
+          name: 'Recycle Bin',
+        },
+        {
+          id: 14,
+          type: 'browser',
+          name: 'Browser',
+        },
+        {
+          id: 15,
+          type: 'musicPlayer',
+          name: 'Music',
+        },
+        {
+          id: 16,
+          type: 'fileExplorer',
+          name: 'Files',
+        },
+        {
+          id: 17,
+          type: 'terminal',
+          name: 'Terminal',
+        },
+        {
+          id: 18,
+          type: 'settings',
+          name: 'Settings',
+        },
+        {
+          id: 19,
+          type: 'monsterSlayer',
+          name: 'Monster Slayer',
         },
       ],
     },
@@ -86,6 +162,30 @@ const mutations = {
     }
     loopItem.content.push(data.newItem);
   },
+  deleteFileMut(state: State, { id, currentPath }: { id: number; currentPath: Item[] }) {
+    const items = state.fileSystemItems;
+    // Todo delete also file content
+    if (currentPath.length === 1 && currentPath[0].id === -1) {
+      const index = items.findIndex(i => i.id === id);
+      items.splice(index, 1);
+      return;
+    }
+    // Find correct node
+    let loopItem = null;
+    for (let i = 0; i < currentPath.length; i += 1) {
+      const cp = currentPath[i];
+      if (loopItem?.content != null) {
+        loopItem = loopItem.content.find((i: Item) => i.id === cp.id);        
+      } else {
+        loopItem = items.find((i) => i.id === cp.id);        
+      }
+    }
+    if (loopItem?.content == null) {
+      return;
+    }
+    const index = loopItem.content.findIndex(i => i.id === id);
+    loopItem.content.splice(index, 1);
+  },
   saveFileContentMut(state: State, data: { id: number, text: string }) {
     const index = state.fileData.findIndex(i => i.id === data.id);
     if (index === -1) {
@@ -107,6 +207,9 @@ const actions = {
   },
   saveFileContent(context: ActionContext<State, any>, data: { id: number, text: string }) {
     context.commit('saveFileContentMut', data);
+  },
+  deleteFile(context: ActionContext<State, any>, { id, currentPath }: { id: number; currentPath: Item[] }) {
+    context.commit('deleteFileMut', { id, currentPath });
   },
 };
 const getters = {
