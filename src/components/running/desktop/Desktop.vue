@@ -126,10 +126,9 @@ export default defineComponent({
     ...mapGetters({  
       getApplications: 'getApplications',
       getBackground: 'getBackground',
-      getFileSystemItems: 'getFileSystemItems',
     }),
     getDesktopItems() {
-      return this.getFileSystemItems.find((i: Item) => i.name === 'Desktop')?.content || [];
+      return this.$store.getters.getFileSystemItems.find((i: Item) => i.name === 'Desktop')?.content || [];
     },
   },
   watch: {
