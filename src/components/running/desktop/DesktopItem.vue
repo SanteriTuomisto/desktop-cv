@@ -11,9 +11,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   emits: ['click'],
   props: {
     icon: {
@@ -30,7 +31,7 @@ export default {
       this.$emit('click');
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

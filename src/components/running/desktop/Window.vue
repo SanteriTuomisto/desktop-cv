@@ -56,14 +56,15 @@
   </vue-resizable>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import VueResizable from 'vue-resizable';
 import { mapGetters } from 'vuex';
 import XIcon from '@/assets/XIcon.vue';
 import ExpandIcon from '@/assets/ExpandIcon.vue';
 import MinimizeIcon from '@/assets/MinimizeIcon.vue';
 
-export default {
+export default defineComponent({
   emits: ['click'],
   components: {
     VueResizable,
@@ -202,7 +203,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

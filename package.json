@@ -1,6 +1,6 @@
 {
-  "name": "myos-vite",
-  "version": "0.0.0",
+  "name": "my-os",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "scripts": {

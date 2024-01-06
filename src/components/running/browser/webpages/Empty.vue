@@ -17,7 +17,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  NetworkItem,
+  type NetworkItem,
 } from '@/store/browser';
 
 export default defineComponent({

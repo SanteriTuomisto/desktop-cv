@@ -23,11 +23,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import Eyeball from '@/components/projects/eyeball/Eyeball.vue';
 import Bubbles from '@/components/projects/bubbles/Bubbles.vue';
 
-export default {
+export default defineComponent({
   components: {
     Eyeball,
     Bubbles,
@@ -37,7 +38,7 @@ export default {
       this.$store.dispatch('toggleStartup');
     }, 5000);
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

@@ -59,7 +59,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import FileSystemItem from './FileSystemItem.vue';
 import HomeIcon from '@/assets/HomeIcon.vue';
@@ -70,7 +71,7 @@ import TrashIcon from '@/assets/TrashIcon.vue';
 import EditIcon from '@/assets/EditIcon.vue';
 import Scroller from '@/components/_shared/Scroller.vue';
 
-export default {
+export default defineComponent({
   components: {
     FileSystemItem,
     HomeIcon,
@@ -170,7 +171,7 @@ export default {
       return this.paths.length === 1;
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

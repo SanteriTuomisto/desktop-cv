@@ -15,17 +15,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import Terminal from "primevue/terminal";
 import TerminalService from "primevue/terminalservice";
 import "primevue/resources/themes/lara-light-green/theme.css";
+import { type Item } from '@/store/fileSystem';
 
-export default {
+export default defineComponent({
   components: {
     Terminal,
   },
-  data() {
+  data(): {
+    paths: { name: string; id: number; content?: Item[] }[]
+  } {
     return {
       paths: [{
         name: 'home',
@@ -40,7 +44,7 @@ export default {
     TerminalService.off("command", this.commandHandler);
   },
   methods: {
-    commandHandler(text) {
+    commandHandler(text: string) {
       let response = '';
       let argsIndex = text.indexOf(" ");
       let command = argsIndex !== -1 ? text.substring(0, argsIndex) : text;
@@ -96,15 +100,15 @@ export default {
     ...mapGetters({  
       getFileSystemItems: 'getFileSystemItems',
     }),
-    getCurrentFolder() {
-      const items = this.getFileSystemItems;
+    getCurrentFolder(): Item[] {
+      const items = this.getFileSystemItems as Item[];
       if (this.isHome) {
         return items;
       }
       const lastItem = this.paths[this.paths.length - 1];
-      return lastItem.content;
+      return lastItem.content || [];
     },
-    isHome() {
+    isHome(): boolean {
       return this.paths.length === 1;
     },
     prompt() {
@@ -112,7 +116,7 @@ export default {
       return `$ ${paths.join('/')}:~ `;
     },
   },
-};
+});
 </script>
 
 <style scoped>

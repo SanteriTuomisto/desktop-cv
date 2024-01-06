@@ -28,11 +28,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import PowerIcon from '@/assets/PowerIcon.vue';
 import Bootup from '@/components/boot/Bootup.vue';
 
-export default {
+export default defineComponent({
   components: {
     PowerIcon,
     Bootup,
@@ -59,7 +60,7 @@ export default {
       }, 500);
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

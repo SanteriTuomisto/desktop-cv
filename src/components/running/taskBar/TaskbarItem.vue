@@ -7,10 +7,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-export default {
+export default defineComponent({
   props: {
     id: {
       type: Number,
@@ -48,7 +49,7 @@ export default {
       this.active = activeId === this.id;
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

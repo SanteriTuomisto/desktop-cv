@@ -28,14 +28,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import moment from 'moment';
 import { mapGetters } from 'vuex';
 import WifiIcon from '@/assets/WifiIcon.vue';
 import StartMenu from './StartMenu.vue';
 import TaskbarItem from './TaskbarItem.vue';
 
-export default {
+export default defineComponent({
   components: {
     StartMenu,
     TaskbarItem,
@@ -84,7 +85,7 @@ export default {
       this.applications = apps;
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

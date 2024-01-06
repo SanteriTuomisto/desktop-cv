@@ -28,7 +28,7 @@ export default defineComponent({
   },
   created() {
     // Clear vuex persist if version has changed
-    const currentVersion = import.meta.env.APP_VERSION;
+    const currentVersion = import.meta.env.PACKAGE_VERSION;
     console.log(currentVersion);
     if (this.$store.state.version !== currentVersion) {
       localStorage.removeItem('myOs-persist-store');

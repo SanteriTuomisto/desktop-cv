@@ -28,7 +28,7 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import Scroller from '@/components/_shared/Scroller.vue';
 import {
-  NetworkItem,
+  type NetworkItem,
 } from '@/store/browser';
 import Boogle from './webpages/boogle/Boogle.vue';
 import Empty from './webpages/Empty.vue';
@@ -83,7 +83,7 @@ export default defineComponent({
   },
   watch: {
     getBrowserHistory: {
-      handler(history) {
+      handler(history: NetworkItem[]) {
         this.history = history;
       },
       immediate: true,

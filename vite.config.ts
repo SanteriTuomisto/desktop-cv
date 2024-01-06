@@ -1,6 +1,6 @@
-import { resolve } from 'path'
 import { fileURLToPath, URL } from 'node:url'
 import { templateCompilerOptions } from '@tresjs/core'
+import packageJson from './package.json';
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -13,13 +13,11 @@ export default defineConfig({
     }),
   ],
   define: {
-    APP_VERSION: JSON.stringify(process.env.npm_package_version),
+    'import.meta.env.PACKAGE_VERSION': JSON.stringify(packageJson.version)
   },
   resolve: {
     alias: {
-      vue: resolve('./node_modules/vue'),
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    dedupe: ['vue'],
   },
 });

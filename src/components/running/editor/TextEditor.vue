@@ -12,11 +12,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import SaveIcon from '@/assets/SaveIcon.vue';
 import Editor from 'primevue/editor';
 
-export default {
+export default defineComponent({
   components: {
     SaveIcon,
     Editor,
@@ -42,7 +43,7 @@ export default {
       this.$store.dispatch('saveFileContent', { id: this.fileSystemId, text: this.value });
     },
   },
-};
+}) ;
 </script>
 
 <style lang="scss" scoped>
